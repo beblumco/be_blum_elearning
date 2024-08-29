@@ -1,0 +1,13 @@
+{
+    "name": "Accompaniment",
+    "alias": "accompaniment",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Accompaniment\\Providers\\AccompanimentServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

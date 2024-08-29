@@ -1,0 +1,40 @@
+.title-login {
+    font-size: 30px;
+    color: #fff;
+    font-family: sans-serif;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.title-login:hover{
+    color: white;
+}
+
+.logo_login{
+  width: 85%;
+}
+
+.logo_registrarme{
+    width: 40%;
+  }
+
+.subtitulo{
+    font-size: 13px;
+}
+
+.texto-12{
+    font-size: 12px;
+}
+
+.p2{
+    padding: 2px;
+}
+
+.alto{
+    height: auto !important;
+}
+
+.alert-input{
+    color: yellow;
+    margin: 2px;
+}

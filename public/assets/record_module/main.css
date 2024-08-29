@@ -1,0 +1,74 @@
+.ico_svg_button{
+  filter: invert(1);
+  width: 21%;
+  margin-right: 5px;
+  max-height: 28.9px;
+}
+
+.mr-4{
+  margin-right: 4px;
+}
+
+.img-folder-btn{
+  width: 14% !important;
+}
+
+.ico-folder{
+  width: 2rem;
+  height: 2rem;
+}
+
+FIELDSET {
+    margin: 8px;
+    border: 1px solid silver;
+    padding: 8px;    
+    border-radius: 4px;
+}
+LEGEND{
+    padding: 5px;    
+    width: 10%;
+}
+
+LEGEND > H6{
+ margin: 0;
+}
+
+#content-zone-drop{
+  position: absolute;
+   width: 100%;
+   display: none;
+   height: 100%;
+   background-color: black;
+   opacity: 0.3;
+   z-index: 1040;
+}
+
+.zone-active{
+  display: block !important;
+}
+
+#img-zone-drop{
+    width: 150px;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: 1020;
+    filter: invert(97%) sepia(1%) saturate(4%) hue-rotate(230deg) brightness(115%) contrast(100%);
+}
+
+table tbody{
+  font-size: 14px;
+}
+
+.table td{
+  padding: 2px 20px;
+}
+
+.center-p{
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}

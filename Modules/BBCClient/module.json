@@ -1,0 +1,13 @@
+{
+    "name": "BBCClient",
+    "alias": "bbcclient",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\BBCClient\\Providers\\BBCClientServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

@@ -1,0 +1,22 @@
+#tableOrganization > tbody > tr >td,
+#tableOrganizationPE > tbody > tr >td
+{
+  text-align: center;
+}
+
+.dev-icon-table
+{
+  cursor: pointer;
+  width: 18px;
+  filter: invert(43%) sepia(58%) saturate(1241%) hue-rotate(329deg) brightness(108%) contrast(99%);
+}
+
+.header-mod {
+    display: flex;
+    flex-direction: row-reverse;
+}
+/* .dev-select-primary-color:hover, .dev-select-primary-color:focus, .dev-select-primary-color.active {
+    box-shadow: none;
+    background: #FE634E!important;
+    color: #FFF!important;
+} */

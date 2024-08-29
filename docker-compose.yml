@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  app_savk_lar:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - klaxen_net 
+    environment:
+      APP_NAME: Savak
+      APP_ENV=: local
+      APP_KEY: base64:jV6rKjzcoeM1nUKduZt2P1SgiMrro0zCxfMfOHEwZEA=
+      APP_DEBUG: true
+      APP_LOG_LEVEL: debug
+      APP_URL: http://savk.test
+      DB_CONNECTION: mysql
+      DB_HOST: db_kl
+      DB_PORT: 3366
+      DB_DATABASE: klaxen_audeed
+      DB_USERNAME: kl_root
+      DB_PASSWORD: kl4x3n_4ud44d
+      BROADCAST_DRIVER: log
+      CACHE_DRIVER: file
+      SESSION_DRIVER: file
+      SESSION_LIFETIME: 120
+      QUEUE_DRIVER: sync
+      REDIS_HOST: 127.0.0.1
+      REDIS_PASSWORD: null
+      REDIS_PORT: 6379
+      DB_KA_CONNECTION: mysql
+      DB_KA_HOST: 44.228.235.82
+      DB_KA_PORT: 3306
+      DB_KA_DATABASE: klarengp_jo153
+      DB_KA_USERNAME: kl_remote
+      DB_KA_PASSWORD: Dd2588dd2588*
+      MAIL_DRIVER: smtp
+      MAIL_HOST: smtp.mailtrap.io
+      MAIL_PORT: 2525
+      MAIL_USERNAME: c70e5185786efc
+      MAIL_PASSWORD: 62e12d9da31324
+      MAIL_FROM_ADDRESS: from@example.com
+      MAIL_FROM_NAME: Example
+      CONTACT_MAIL :  desarrolloweb1klaxen@gmail.com
+      CONTACT_NAME :  soporte
+      PUSHER_APP_ID: 1749110
+      PUSHER_KEY: 185a1191ff877f11d545
+      PUSHER_SECRET: becb8980a7216e837203
+      PUSHER_CLUSTER: us2
+      URL: https://klaxen.co/savk/
+      API: https://audeed-beblum.com/
+      BOTTY: 1
+      IP_BOTTY: http://181.48.215.166:4441
+      URL_GPT: https://iaudiid.audeed.app/
+
+networks:
+  klaxen_net:
+    external: true

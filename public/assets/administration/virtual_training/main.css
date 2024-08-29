@@ -1,0 +1,27 @@
+.dev-icon-table
+{
+  cursor: pointer;
+  width: 18px;
+  filter: invert(43%) sepia(58%) saturate(1241%) hue-rotate(329deg) brightness(108%) contrast(99%);
+}
+
+.form-control:hover, .form-control:focus, .form-control.active 
+{
+  color: #495057;
+}
+
+.form-control:hover, .form-control:focus, .form-control.active 
+{
+  color: #495057;
+}
+
+.form-control 
+{
+  color: #495057;
+}
+
+.dev-required
+{
+  font-weight: bold;
+  color: white;
+}

@@ -1,0 +1,13 @@
+{
+    "name": "IA",
+    "alias": "ia",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\IA\\Providers\\IAServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

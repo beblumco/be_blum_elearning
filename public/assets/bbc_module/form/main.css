@@ -1,0 +1,147 @@
+.ico_svg_button{
+  filter: invert(1);
+  width: 21%;
+  margin-right: 5px;
+  max-height: 28.9px;
+}
+
+.mr-4{
+  margin-right: 4px;
+}
+
+.img-folder-btn{
+  width: 14% !important;
+}
+
+.ico-folder{
+  width: 2rem;
+  height: 2rem;
+}
+
+FIELDSET {
+    margin: 8px;
+    border: 1px solid silver;
+    padding: 8px;    
+    border-radius: 4px;
+}
+LEGEND{
+    padding: 5px;    
+    width: 10%;
+}
+
+LEGEND > H6{
+ margin: 0;
+}
+
+#content-zone-drop{
+  position: absolute;
+   width: 100%;
+   display: none;
+   height: 100%;
+   background-color: black;
+   opacity: 0.3;
+   z-index: 1040;
+}
+
+.zone-active{
+  display: block !important;
+}
+
+#img-zone-drop{
+    width: 150px;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: 1020;
+    filter: invert(97%) sepia(1%) saturate(4%) hue-rotate(230deg) brightness(115%) contrast(100%);
+}
+
+table tbody{
+  font-size: 14px;
+}
+
+.table td{
+  padding: 2px 20px;
+}
+
+.center-p{
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.authincation
+{
+  background-image: url(../../../img/FF_Img.png);
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+.dev-cursor-pointer
+{
+  cursor: pointer;
+}
+
+.dev-bold
+{
+  font-weight: bold;
+}
+
+.dev-text-color-primary
+{
+  color: #FE634E;
+}
+
+.dev-card-body 
+{
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  min-height: 80px;
+}
+
+.dev-font-green
+{
+  color: green;
+  font-size: 20px;
+}
+
+.dev-card 
+{
+  box-shadow: 0px 12px 23px 0px rgb(112 112 112 / 32%);
+  height: calc(100% - 40px);
+}
+
+textarea {
+  resize: none;
+}
+
+.dev-btn-second
+{
+  color: #fff;
+  background-color: #3a811d;
+  border-color: #3a811d;
+}
+
+.dev-btn-second:hover {
+  color: #fff;
+  background-color: #307017;
+  border-color: #307017;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
+  color: #fff;
+  background-color: #307017;
+  border-color: #307017;
+}
+
+.btn-primary:focus, .btn-primary.focus {
+  color: #fff;
+  background-color: #307017;
+  border-color: #307017;
+  box-shadow: 0 0 0 0.2rem rgba(35, 150, 12, 0.5);
+}

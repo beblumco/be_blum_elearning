@@ -1,0 +1,13 @@
+{
+    "Dashboards": true,
+    "Drive": true,
+    "Administration": true,
+    "Shop": true,
+    "Record": true,
+    "Trainings": true,
+    "Certificates": true,
+    "Reports": true,
+    "BBCClient": true,
+    "Accompaniment": true,
+    "IA": true
+}
