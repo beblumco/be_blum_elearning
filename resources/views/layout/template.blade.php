@@ -3,7 +3,7 @@
 	$dataUser = \DB::table('usuarios')
 	->select(
 			'usuarios.*',
-			\DB::raw('IF(usuarios.img_avatar IS NULL, "logo_klaxen.png", usuarios.img_avatar) AS IMG_AVATAR'),
+			\DB::raw('IF(usuarios.img_avatar IS NULL, "logoPerfil.png", usuarios.img_avatar) AS IMG_AVATAR'),
             'c.img_avatar AS AVATAR_GE',
             'u.img_avatar AS AVATAR_EMPRESA',
 		)
@@ -84,36 +84,37 @@
             Nav header start
         ***********************************-->
 
-         <div class="nav-header d-flex align-items-center">
+        <div class="nav-header d-flex align-items-center">
             <div class="d-sm-none">
                 <button class="btn btn-primary ml-1" style="border-radius: 0.5rem !important;" onclick="menu()">
                     <i class="bi bi-list"></i>
                 </button>
             </div>
 
-           <a href="{{ route('login_index') }}" class="brand-logo">
-             <img
-                class="logo-abbr"
-                src="{{ asset('img/logo_savak.png') }}"
-                style="{{ empty($logoCliente) ? 'max-width: 180px !important; max-height: 70px;' :'' }}"
-             >
-             <img class="logo-compact" src="{{ asset('assets/images/logo-text.png') }}" alt="">
-             <h1 class="brand-title"><b>Savk</b></h1>
-           </a>
+           <div class="ml-3 d-flex justify-content-center w-100">
+                <a href="{{ route('login_index') }}" class="brand-logo">
+                    <img
+                    class="logo-abbr"
+                    src="{{ asset('img/logo_savak.png') }}"
+                    style="{{ empty($logoCliente) ? 'max-width: 180px !important; max-height: 70px;' :'' }}"
+                    >
+                    <img class="logo-compact" src="{{ asset('assets/images/logo-text.png') }}" alt="">
+                    <h1 class="brand-title"><b>Savk</b></h1>
+                </a>
+           </div>
 
            @if(!empty($logoCliente))
-                <div class="d-none d-sm-block">
+                <div class="d-none d-sm-flex justify-content-center w-100">
                     <img class="logo-abbr" src="{{ asset('/storage/'.$logoCliente) }}" alt="">
                 </div>
             @endif
-
 
            {{-- <div class="nav-control">
              <div class="hamburger">
                <span class="line"></span><span class="line"></span><span class="line"></span>
              </div>
            </div> --}}
-         </div>
+        </div>
 
         <!--**********************************
             Nav header end
@@ -199,9 +200,7 @@
               } else {
                 // Si no tiene la clase d-none, agrégala
                 deznavElement.addClass('d-none');
-              }
-            console.log("hola");
-        }
+              }        }
     </script>
 	@include('elements.footer-scripts')
     @yield('scripts')

@@ -298,13 +298,12 @@ return [
                     'assets/training_admin_module/main.css?v=' . $time,
                     'assets/vendor/toastr/css/toastr.min.css'
                 ],
-                'detalleAuditoria' => [
+                'IndexReportTrainingAsistidas' => [
                     'assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css',
                     'assets/vendor/sweetalert2/dist/sweetalert2.min.css',
-                    'assets/training_admin_module/main.css?v=' . $time,
                     'assets/vendor/toastr/css/toastr.min.css'
                 ],
-                'IndexAccompaniment' => [
+                'detalleAuditoria' => [
                     'assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css',
                     'assets/vendor/sweetalert2/dist/sweetalert2.min.css',
                     'assets/training_admin_module/main.css?v=' . $time,
@@ -1214,18 +1213,16 @@ return [
                     'assets/js/deznav-init.js',
                     mix('/js/app.js')
                 ],
-                'detalleAuditoria' => [
+                'IndexReportTrainingAsistidas' => [
                     'assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js',
                     'assets/vendor/select2/js/select2.full.min.js',
                     'assets/js/plugins-init/select2-init.js',
                     'assets/vendor/toastr/js/toastr.min.js',
                     'assets/vendor/sweetalert2/dist/sweetalert2.min.js',
-                    'assets/training_admin_module/init.js?v=' . $time,
-                    'assets/training_admin_module/main.js?v=' . $time,
                     'assets/js/deznav-init.js',
                     mix('/js/app.js')
                 ],
-                'IndexAccompaniment' => [
+                'detalleAuditoria' => [
                     'assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js',
                     'assets/vendor/select2/js/select2.full.min.js',
                     'assets/js/plugins-init/select2-init.js',
