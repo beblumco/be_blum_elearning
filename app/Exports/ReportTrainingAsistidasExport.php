@@ -6,7 +6,7 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class ReportTrainingExport implements FromCollection, ShouldAutoSize, WithHeadings
+class ReportTrainingAsistidasExport implements FromCollection, ShouldAutoSize, WithHeadings
 {
     public $data;
     /**
@@ -24,14 +24,16 @@ class ReportTrainingExport implements FromCollection, ShouldAutoSize, WithHeadin
     public function headings(): array
     {
         return [
-            'Categoría',
+            'Fecha',
             'Capacitación',
-            'Tiempo (Horas)',
+            'Asesor experto',
+            'Asistentes',
             'Certificados',
-            'Creada por',
-            'Asignación',
+            'Modalidad',
+            'Tipo',
             'Grupo empresa',
-            'Empresa'
+            'Empresa',
+            'Centro de costo'
         ];
     }
 }
