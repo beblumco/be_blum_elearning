@@ -43,7 +43,7 @@
                                         <th>Tipo</th>
                                         <!-- <th v-if="data.main_account == 1">Tipo</th> -->
                                         <th>Estado</th>
-                                        <th>Acciones</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -52,12 +52,18 @@
                                         <!-- <td>{{ training.descripcion }}</td> -->
                                         <td>{{ training.tiempo_minutos }}</td>
                                         <td>{{ training.nombre_com }}</td>
-                                        <td>{{ training.tipo_capacitacion == 1 ? 'K-Learning' : training.tipo_capacitacion == 2 ? 'Asistida por experto' : 'Webinar' }}</td>
+                                        <td>{{ training.tipo_capacitacion == 1 ? 'E-Learning' : training.tipo_capacitacion == 2 ? 'Asistida por experto' : 'Webinar' }}</td>
                                         <td><div class="d-flex align-items-center dev-cursor-pointer" @click="OnClickChangeStatus(training)"><i :class="'fa fa-circle '+(training.estado == 1 ? 'text-success' : 'text-danger')+' mr-1'"></i>{{ training.estado_texto }}</div></td>
                                         <td>
                                             <div class="d-flex">
-                                                <a href="#" class="btn btn-primary shadow btn-xs sharp mr-1" @click.prevent="OnClickRedirectNewTraining(training.id_training_encrypt)"><i class="fa fa-pencil"></i></a>
-                                                <a href="#" class="btn btn-danger shadow btn-xs sharp" @click.prevent="OnClickDeleteTraining(training)"><i class="fa fa-trash"></i></a>
+                                                <a href="#" class="badge badge-primary mr-1" @click.prevent="OnClickRedirectNewTraining(training.id_training_encrypt)">
+                                                    <!-- <i class="fa fa-pencil"></i> -->
+                                                    Editar
+                                                </a>
+                                                <a href="#" class="badge badge-primary" @click.prevent="OnClickDeleteTraining(training)">
+                                                    Eliminar
+                                                    <!-- <i class="fa fa-trash"></i> -->
+                                                </a>
                                             </div>
                                         </td>
                                     </tr>

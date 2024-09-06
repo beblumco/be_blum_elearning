@@ -18,6 +18,20 @@
             <card-indicator-component title="Puntos obtenidos" quantity="{{ $puntosElearningTotales }}" icon="dev_points_orange"></card-indicator-component>
         </div>
 
+        @if (Auth::user()->main_account_id == 2)
+        <div class="card">
+            <div class="card-body" style="padding-top: 10px;padding-bottom: 10px;">
+               <span class="d-flex justify-content-center" style="font-size: 20px;color:#3b3b3b;font-weight: 600;">Capacitaciones asistidas por experto</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <card-indicator-component title="Horas de entrenamiento" quantity="{{ $minutosAsistidasTotales }}" icon="dev_training_ent_orange"></card-indicator-component>
+            <card-indicator-component title="Certificados generados" quantity="{{ $certificadosAsistidas }}" icon="dev_certificados_orange"></card-indicator-component>
+            <card-indicator-component title="Puntos obtenidos" quantity="{{ $puntosAsistidasTotales }}" icon="dev_points_orange"></card-indicator-component>
+        </div>
+        @endif
+
      </div>
    </div>
 </div>

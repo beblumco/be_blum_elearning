@@ -239,7 +239,7 @@ class DashboardsController extends Controller
                         $contWebinars = 1;
                     }
                 }else{
-                    $minutosAsistidas += $value->minutos;
+                    // $minutosAsistidas += $value->minutos;
                     $puntosAsistidas += $value->puntos;
                     if($contAsistida == 0)
                     {
@@ -264,7 +264,7 @@ class DashboardsController extends Controller
                         $contElearning = 1;
                     }
                 }else{
-                    $minutosAsistidas += $value->minutos;
+                    // $minutosAsistidas += $value->minutos;
                     $puntosAsistidas += $value->puntos;
                     if($contAsistida == 0)
                     {
@@ -342,6 +342,11 @@ class DashboardsController extends Controller
         $puntosElearningTotales = 0;
         $certificadosElearnig =0;
 
+        $minutosAsistidasTotales = 0;
+        $puntosAsistidasTotales = 0;
+        $usuariosAsistidas = 0;
+        $certificadosAsistidas = 0;
+
 
         //SE RECORRE CADA USUARIO
         foreach ($users as $key => $user) {
@@ -365,6 +370,10 @@ class DashboardsController extends Controller
             foreach ($certificados as $key => $value) {
                 if ($value->tipo_capacitacion != 3 && $value->asistida == null) {
                     $certificadosElearnig+=1;
+                }
+                if ($value->asistida != null) {
+                    $certificadosAsistidas+=1;
+                    $minutosAsistidasTotales+= $value->asistida;
                 }
             }
 
@@ -399,27 +408,54 @@ class DashboardsController extends Controller
 
             $elearning = DB::select($query." and c.tipo_capacitacion != 3 group by c.id");
 
+
+
             //SE SUMAN LOS MINUTOS Y PUNTOS POR E-LEARNING DEL USUARIO(CAPACITACIONES YA REALIZADAS)
             $minutosElearning = 0;
             $puntosElearning = 0;
 
+            $minutosAsistidas = 0;
+            $puntosAsistidas = 0;
+
+            $contElearning = 0;
+            $contAsistida = 0;
+
             foreach ($elearning as $key => $value) {
-                $minutosElearning += $value->minutos;
-                $puntosElearning += $value->puntos;
+                if ($value->asistida == null) {
+                    $minutosElearning += $value->minutos;
+                    $puntosElearning += $value->puntos;
+                    if($contElearning == 0){
+                        // $usuariosElearning+= 1;
+                        $contElearning = 1;
+                    }
+                }else{
+                    // $minutosAsistidas += $value->minutos;
+                    $puntosAsistidas += $value->puntos;
+                    if($contAsistida == 0)
+                    {
+                        $usuariosAsistidas += 1;
+                        $contAsistida = 1;
+                    }
+                }
             }
 
             //SE SUMA AL TOTAL DE HORAS ENTRENAMIENTO
             $minutosElearningTotales+= $minutosElearning;
             $puntosElearningTotales+= $puntosElearning;
+            $minutosAsistidasTotales+= $minutosAsistidas;
+            $puntosAsistidasTotales+= $puntosAsistidas;
         }
 
         $minutosElearningTotales = number_format($minutosElearningTotales / 60, 1); //SE CONVIERTE A HORAS
+
+        $minutosAsistidasTotales = number_format($minutosAsistidasTotales / 60, 1); //SE CONVIERTE A HORAS
 
         $permisos = $this->GetAllPermisos();
 
         return view('dashboards::admin.indicadores_equipo_mis_capacitaciones', compact(
             'page_title','action',
             'minutosElearningTotales','puntosElearningTotales', 'certificadosElearnig',
+            'minutosAsistidasTotales','puntosAsistidasTotales', 'certificadosAsistidas',
             'permisos'
         ));
     }

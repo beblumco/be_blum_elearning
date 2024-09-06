@@ -25,9 +25,12 @@
         <tr class="">
           <th>Nombre</th>
           <th>Correo</th>
-          <th>Perfil</th>
-          <th>Estado</th>
-          <th id="tour_head_cc">Asignaciones</th>
+          <th @click="OnClickOpenModalFilters('perfil')">Perfil <i class="bi bi-funnel filter"></i></th>
+          <th @click="OnClickOpenModalFilters('estado')">Estado <i class="bi bi-funnel filter"></i></th>
+          <th @click="OnClickOpenModalFilters('grupo_empresa')">Grupo empresa <i class="bi bi-funnel filter"></i></th>
+          <th @click="OnClickOpenModalFilters('empresa')">Empresa <i class="bi bi-funnel filter"></i></th>
+          <th @click="OnClickOpenModalFilters('centro_costo')">Centro de costo <i class="bi bi-funnel filter"></i></th>
+          <th id="tour_head_cc">Responsable</th>
           <th style="width: 20%;"></th>
         </tr>
       </thead>
@@ -37,14 +40,16 @@
             <td>{{ emp.nombre }}</td>
             <td>{{ emp.email }}</td>
             <td>{{ emp.nombre_perfil }}</td>
-            <td>
-              {{ emp.estado }}
-            </td>
+            <td>{{ emp.estado }}</td>
+            <td>{{ emp.grupo_empresa }}</td>
+            <td>{{ emp.empresa }}</td>
+            <td>{{ emp.punto }}</td>
             <td class="text-center">
               <a
                 href="#!"
                 class="badge badge-warning"
                 @click="viewPoints(emp.id)"
+                v-show="[44, 45, 46, 47].includes(emp.id_grupo)"
                 >Ver</a
               >
             </td>
@@ -64,7 +69,7 @@
                 </a>
                 <a
                   href="javascript:void(0)"
-                  class="badge badge-primary"
+                  class="badge badge-primary mt-1"
                   style="color: white"
                   @click="deleteElem(emp.id)"
                   v-if="(permisos.includes('org-mio-eliminar_usuarios') && data.profile < emp.id_grupo) ||
@@ -116,25 +121,25 @@
   </nav>
 
   <div class="modal fade" id="modalPointsUser">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Puntos de Evaluación</h5>
+          <h5 class="modal-title">Responsable</h5>
           <button type="button" class="close" data-dismiss="modal">
             <span>&times;</span>
           </button>
         </div>
         <div class="modal-body">
             <div class="row">
-                <div class="col-lg-6 border-right">
+                <!-- <div class="col-lg-6 border-right">
                     <h5 class="mb-2">Hago parte del centro de costo:</h5>
                     <ul style="display: list-item">
                         <template v-for="point in data.user_points" :key="point.id">
                             <li v-if="point.responsable == 0">{{ point.nombre }}</li>
                         </template>
                     </ul>
-                </div>
-                <div class="col-lg-6 pl-4" v-if="data.label_points != null">
+                </div> -->
+                <div class="col-lg-12 pl-4" v-if="data.label_points != null">
                     <h5 class="mb-2">Soy responsable {{ data.label_points }}</h5>
                     <ul style="display: list-item">
                         <template v-for="point in data.user_points" :key="point.id">
@@ -616,6 +621,60 @@
       </div>
     </div>
   </div>
+
+  <!-- MODAL FILTROS -->
+  <div
+    class="modal fade"
+    id="modal_filters"
+    tabindex="-1"
+    role="dialog"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ tituloFiltro }}</h5>
+          <button type="button" class="close" @click="closeModalFilters">
+            <span>&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <!-- INIT INPUT -->
+                <div class="mb-3 col-lg-12">
+                    <label for="name" class="col-form-label">
+                        {{ capitalize(modeFiltro) }}: <span style="color: red">*</span></label
+                    >
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <Select_Savk
+                                ref="selectFiltros"
+                                :options="data.selectFiltros[modeFiltro]"
+                                :maxItem="20"
+                                placeholder="Seleccione una opción"
+                                @selected="item => OnSelectedFiltros(item, modeFiltro)"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" @click="filtrar">
+            Filtrar
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger light"
+            @click="closeModalFilters"
+          >
+            Cerrar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END MODAL FILTROS-->
 </template>
 
 <script>
@@ -626,13 +685,15 @@ export default {
     Select_Savk,
   },
   created() {
-    this.getLinkInvitacion();
-    this.getCities();
-    this.getCountries();
-    this.getDepartaments();
-    this.getProfiles();
-    this.getCompanies();
-    this.getDataAll();
+        this.getDataAll();
+        this.getLinkInvitacion();
+        this.getCities();
+        this.getCountries();
+        this.getDepartaments();
+        this.getProfiles();
+        this.getCompaniesGroup();
+        this.getCompanies();
+        this.getEvaluationPoints()
   },
   async mounted(){
     await this.guiaGetAll();
@@ -644,6 +705,8 @@ export default {
   },
   data() {
     return {
+        tituloFiltro: "",
+        modeFiltro: "",
         permisos : JSON.parse(localStorage.getItem('permisos')),
         guias: [],
         guiasSecundarias: [],
@@ -661,13 +724,24 @@ export default {
           { id: 1, name: "Activo" },
           { id: 2, name: "Inactivo" },
         ],
+        selectFiltros: {
+            estado: [
+                { id: '0', name: "Todos" },
+                { id: 1, name: "Activo" },
+                { id: 2, name: "Inactivo" },
+            ],
+            perfil: [],
+            grupo_empresa: [],
+            empresa: [],
+            centro_costo: [],
+        },
+        filters: {},
         link: "",
         countries: [],
         cities: [],
         evaluation_points: [],
         secciones: [],
         departaments: [],
-        companies: [],
         profiles: [],
         mode: "create",
         errorValidation: false,
@@ -726,6 +800,40 @@ export default {
     tapSelect(tap){
         this.data.tapSeccion = tap
     },
+    capitalize(str) {
+        const formattedStr = str.replace(/_/g, ' ');
+        return formattedStr.charAt(0).toUpperCase() + formattedStr.slice(1);
+    },
+    OnSelectedFiltros(item, mode) {
+        if (!this.data.filters[mode]) {
+            this.data.filters[mode] = { id: null, name: '' };
+        }
+        this.data.filters[mode].id = String(item.id);
+        this.data.filters[mode].name = item.name;
+    },
+    async filtrar() {
+        loading();
+        // this.visibleClearFilters = true;
+        await this.getDataAll();
+        this.closeModalFilters();
+        loading(false);
+    },
+    async OnClickOpenModalFilters(title) {
+        const format = title.replace(/_/g, ' ');
+        this.tituloFiltro = `Filtro ${format}`;
+        this.modeFiltro = title;
+
+        let select = {id: '0', name: "Todos"};
+        if (this.data.filters[this.modeFiltro]) {
+            select = this.data.filters[this.modeFiltro];
+        }
+        this.$refs.selectFiltros.selectOption(select)
+
+        $("#modal_filters").modal("show");
+    },
+    closeModalFilters(e) {
+      $("#modal_filters").modal("hide");
+    },
     async getCountries() {
       //load(true);
       const response = await fetch(`${this.url}` + "administration/paises");
@@ -767,6 +875,19 @@ export default {
       const response = await fetch(`${this.url}` + `administration/perfiles`);
       const data = await response.json();
       this.data.profiles = data;
+
+      this.data.selectFiltros.perfil = [...data];
+      this.data.selectFiltros.perfil.unshift({id: '0', name: "Todos"})
+      //load(false);
+    },
+
+    async getCompaniesGroup() {
+      //load(true);
+      const response = await fetch(`${this.url}` + `administration/grupo-empresas`);
+      const res = await response.json();
+
+      this.data.selectFiltros.grupo_empresa = res.data;
+      this.data.selectFiltros.grupo_empresa.unshift({id: '0', name: "Todos"})
       //load(false);
     },
 
@@ -775,11 +896,8 @@ export default {
       const response = await fetch(`${this.url}` + `administration/empresas`);
       const data = await response.json();
 
-      this.data.companies = data.map(({ id, name }) => ({
-        id: id,
-        text: name,
-      }));
-      //load(false);
+      this.data.selectFiltros.empresa = data;
+      this.data.selectFiltros.empresa.unshift({id: '0', name: "Todos"})
     },
 
     //Obtengo todas los puntos para el Select
@@ -790,7 +908,11 @@ export default {
       );
       const data = await response.json();
       //load(false);
-      return data;
+      this.data.evaluation_points = data;
+
+      this.data.selectFiltros.centro_costo = [...data];
+      this.data.selectFiltros.centro_costo.unshift({id: '0', name: "Todos"})
+    //   return data;
     },
 
     async getSecciones() {
@@ -846,9 +968,9 @@ export default {
 
     async openModalCreate() {
         this.resetDataForm()
-      this.data.evaluation_points = await this.getEvaluationPoints();
-      this.data.secciones = await this.getSecciones();
-      $("#modal_create_user").modal("show");
+        // this.data.evaluation_points = await this.getEvaluationPoints();
+        this.data.secciones = await this.getSecciones();
+        $("#modal_create_user").modal("show");
 
       //   this.data.form.profile.val = 4;
     },
@@ -1374,6 +1496,10 @@ export default {
 </script>
 
 <style scoped>
+    .filter{
+        color: #ff7f00;
+        cursor: pointer;
+    }
     .badge-warning {
     background-color: rgba(254, 99, 78, 0.05) !important;
     color: #ff7f00 !important;

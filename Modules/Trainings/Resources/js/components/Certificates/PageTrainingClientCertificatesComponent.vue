@@ -3,25 +3,34 @@
         <table id="tableOrganization" class="table card-table display dataTablesCard">
             <thead>
                 <tr class="">
+                    <th>Nombre</th>
+                    <th>Identificación</th>
+                    <th>Estado</th>
+                    <th>Grupo empresa</th>
+                    <th>Empresa</th>
                     <th>Certificado</th>
                     <th>Tiempo</th>
                     <th class="align-middle text-center">Intentos</th>
-                    <th>Fecha certificación</th>
+                    <th>Fecha</th>
                     <!-- <th>Puntos</th> -->
                     <th>
-                        <button v-if="data.data.length > 0" class="badge badge-success" @click.prevent="downloadCertificateAll">
+                        <!-- <button v-if="data.data.length > 0" class="badge badge-success" @click.prevent="downloadCertificateAll">
                             Descargar todo
                         </button>
                         <button v-if="data.data.length > 0" class="badge badge-success ml-1" @click.prevent="downloadExcelCertificateAll">
                             Descargar excel
-                        </button>
+                        </button> -->
                     </th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(valor) in data.data" :key="valor.id">
-                    <td v-if="valor.nom_modulo == null">Capacitación {{ valor.nom_capacitacion }}</td>
-                    <td v-if="valor.nom_modulo != null">Módulo {{ valor.nom_modulo }}</td>
+                    <td>{{ valor.nombre }}</td>
+                    <td>{{ valor.documento }}</td>
+                    <td>{{ valor.estado }}</td>
+                    <td>{{ valor.grupo_empresa }}</td>
+                    <td>{{ valor.empresa }}</td>
+                    <td>{{ valor.nom_capacitacion }}</td>
                     <td>{{ valor.tiempo }} Hr(s)</td>
                     <td class="align-middle text-center">
                         <button class="badge badge-primary ml-1" @click.prevent="openModalViewInstantes(valor)">
@@ -29,7 +38,7 @@
                         </button>
                     </td>
                     <td>{{ valor.fecha_terminada }}</td>
-                    <!-- <td><span class="badge dev_badge_primary">{{ valor.puntos }}</span></td> -->
+                    <!-- <td>{{ valor.puntos }}</td> -->
                     <td>
                         <div>
                             <button class="badge badge-primary ml-1 mt-1" @click.prevent="shareCertificate(valor)">
@@ -38,9 +47,9 @@
                             <button class="badge badge-primary ml-1 mt-1" @click.prevent="downloadCertificate(valor)">
                                  Descargar
                             </button>
-                            <button class="badge badge-primary ml-1 mt-1" @click.prevent="OnClickAgainTraining(valor)">
+                            <!-- <button class="badge badge-primary ml-1">
                                  Renovar
-                            </button>
+                            </button> -->
                         </div>
                     </td>
                 </tr>
@@ -71,15 +80,14 @@
             </li>
         </ul>
     </nav>
-
     <!-- MODAL VER INTENTOS -->
     <div
         class="modal fade"
-        id="modal_view_instantes"
+        id="modal_view_instantes_c"
         tabindex="-1"
         role="dialog"
         aria-hidden="true"
-        ref="modal_view_instantes"
+        ref="modal_view_instantes_c"
     >
         <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -152,11 +160,11 @@
   <!-- MODAL VER EVALUACIÓN -->
   <div
         class="modal fade"
-        id="modal_view_evaluacion"
+        id="modal_view_evaluacion_c"
         tabindex="-1"
         role="dialog"
         aria-hidden="true"
-        ref="modal_view_evaluacion"
+        ref="modal_view_evaluacion_c"
     >
         <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -202,7 +210,6 @@ export default {
             url: document.querySelector('meta[name="csrf-token"]').getAttribute("url"),
             token: document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
             data: {
-                dataIntentos: [],
                 paginate: {
                     cant: 10,
                     total: 1,
@@ -212,6 +219,7 @@ export default {
                 data : [],
                 dataSelect : [],
                 questions: [],
+                dataIntentos: [],
                 optionsFetch: (dataForm) => ({
                     method: "POST",
                     headers: {
@@ -259,7 +267,7 @@ export default {
                 switch (rd.responseCode) {
                     case 202:
                         this.data.questions = rd.data.questions;
-                        $("#modal_view_evaluacion").modal("show");
+                        $("#modal_view_evaluacion_c").modal("show");
                         break;
 
                     case 400:
@@ -297,7 +305,7 @@ export default {
                     case 200:
                         this.data.dataSelect = certificado
                         this.data.dataIntentos = rd.data;
-                        $("#modal_view_instantes").modal("show");
+                        $("#modal_view_instantes_c").modal("show");
                         break;
 
                     default:
@@ -310,14 +318,9 @@ export default {
                 console.error(`Error`);
             }
         },
-        async downloadCertificateAll() {
-            loading();
-            window.open(`${this.url}capacitaciones/download-certificateAll/1`, '_blank');
-            loading(false);
-        },
         async downloadExcelCertificateAll() {
             loading();
-            window.open(`${this.url}capacitaciones/download-excel-certificateAll/1`, '_blank');
+            window.open(`${this.url}capacitaciones/download-excel-certificateAll/2`, '_blank');
             loading(false);
         },
         async downloadCertificate(data) {
@@ -325,11 +328,13 @@ export default {
             window.open(`${this.url}capacitaciones/download-certificate/${data.id}`, '_blank');
             loading(false);
         },
-        OnClickAgainTraining(data)
-        {
-            localStorage.setItem("id_training", data.id_capacitacion);
-            window.location.href = this.url + "capacitaciones";
+
+        async downloadCertificateAll() {
+            loading();
+            window.open(`${this.url}capacitaciones/download-certificateAll/2`, '_blank');
+            loading(false);
         },
+
         async shareCertificate(dataPrincipal)
         {
             try {
@@ -391,7 +396,7 @@ export default {
         },
 
         async getDataAll(url = null) {
-            url = url ?? `${this.url}` + "capacitaciones/certificados/all";
+            url = url ?? `${this.url}` + "capacitaciones/certificados-client/all";
 
             const response = await fetch(
                 url,
@@ -425,7 +430,7 @@ export default {
             this.data.paginate.current_page--;
             this.getDataAll(
                 `${this.url}` +
-                "capacitaciones/certificados/all?page=" +
+                "capacitaciones/certificados-client/all?page=" +
                 this.data.paginate.current_page
             );
             loading(false);
@@ -441,7 +446,7 @@ export default {
             this.data.paginate.current_page++;
             this.getDataAll(
                 `${this.url}` +
-                "capacitaciones/certificados/all?page=" +
+                "capacitaciones/certificados-client/all?page=" +
                 this.data.paginate.current_page
             );
             loading(false);
@@ -450,7 +455,7 @@ export default {
         async numPage(num) {
             loading(true);
             await this.getDataAll(
-                `${this.url}` + "capacitaciones/certificados/all?page=" + num
+                `${this.url}` + "capacitaciones/certificados-client/all?page=" + num
             );
             loading(false);
         },
@@ -463,7 +468,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .badge {
     font-size: 10px;
 }

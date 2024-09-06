@@ -51,6 +51,7 @@ class PuntoEvaluacion extends Model
             'de.nombre AS departamento',
             'c.nombre AS ciudad',
             'un.nombre AS empresa',
+            'co.nombre AS grupo_empresa',
             'punto_evaluacion.created_at',
             'gp.id AS id_zona',
             'gp.nombre AS zona'

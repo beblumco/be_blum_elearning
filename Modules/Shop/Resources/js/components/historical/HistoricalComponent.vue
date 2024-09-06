@@ -8,14 +8,14 @@
                       <li class="breadcrumb-item active"><a href="#">Historial</a></li>
                     </ol>
               </div>
-              
+
           </div>
-          
+
           <div class="row">
               <div class="col-lg-12">
                   <div class="card">
                       <div class="card-body">
-  
+
                           <div class="col-lg-12 d-flex justify-content-center">
                               <div class="col-sm-6">
                                   <ul class="navbar-nav header-right">
@@ -30,7 +30,7 @@
                                   </ul>
                               </div>
                           </div>
-                          
+
                           <div class="table-responsive text-center mt-3">
                               <table class="table table-responsive-md" :class="{'skeleton-loader': skeleton_table}">
                                   <thead >
@@ -42,7 +42,7 @@
                                           <th>Impuesto</th>
                                           <th>Total</th>
                                           <th>Estado</th>
-                                          <th>Acciones</th>
+                                          <th></th>
                                       </tr>
                                   </thead>
                                   <tbody >
@@ -65,7 +65,7 @@
                                                     </li>
                                                 </template>
                                             </td>
-              
+
                                             <td>{{ order.orden_compra }}</td>
                                             <td>{{ $FormatCOMoney(order.subtotal) }}</td>
                                             <td>{{ $FormatCOMoney(order.impuestos) }}</td>
@@ -110,7 +110,7 @@
                       </div>
                   </div>
               </div>
-  
+
           </div>
     </div>
 
@@ -169,11 +169,11 @@
 </template>
 
 <script>
-export default 
+export default
 {
     async mounted()
     {
-        console.log(`Init`)        
+        console.log(`Init`)
         await this.GetDataInit()
     },
     data() {
@@ -191,7 +191,7 @@ export default
                 data: [],
                 skeleton_table_modal: false
             },
-            pagination: 
+            pagination:
             {
                 total_pages: 1,
                 current_page: 1
@@ -199,35 +199,35 @@ export default
             inputSearch:""
         };
     },
-    methods: 
+    methods:
     {
         async GetDataInit()
         {
-            try 
+            try
             {
                 let data_form = new FormData();
                 data_form.append('search', this.inputSearch);
                 data_form.append('current_page', this.pagination.current_page);
-                
+
                 this.skeleton_table = true;
                 let rs = await fetch(`${this.config.url}catalogo/get_data_init_historical`, { method: "POST", body: data_form, headers: {'X-CSRF-TOKEN': this.config.token}});
                 let rd = await rs.json();
                 this.skeleton_table = false;
-                
+
                 const {success, responseCode, message, data} = rd;
 
-                switch (responseCode) 
+                switch (responseCode)
                 {
                     case 202:
                         this.orders = data.data;
                         this.pagination.total_pages = data.per_page;
                         break;
-                
+
                     default:
                         break;
                 }
-            } 
-            catch (error) 
+            }
+            catch (error)
             {
                 this.skeleton_table = false;
                 console.error(`Error al realizar llamado inicial: ${error.message}`);
@@ -254,30 +254,30 @@ export default
         },
         async GetDetailOrder(id)
         {
-            try 
+            try
             {
                 let data_form = new FormData();
 
                 data_form.append('id', id);
-                
+
                 this.modal.skeleton_table_modal = true;
                 let rs = await fetch(`${this.config.url}catalogo/get_data_detail_order`, { method: "POST", body: data_form, headers: {'X-CSRF-TOKEN': this.config.token}});
                 let rd = await rs.json();
                 this.modal.skeleton_table_modal = false;
-                
+
                 const {success, responseCode, message, data} = rd;
 
-                switch (responseCode) 
+                switch (responseCode)
                 {
                     case 202:
                         this.modal.data = data;
                         break;
-                
+
                     default:
                         break;
                 }
-            } 
-            catch (error) 
+            }
+            catch (error)
             {
                 this.skeleton_table = false;
                 console.error(`Error al realizar llamado inicial: ${error.message}`);

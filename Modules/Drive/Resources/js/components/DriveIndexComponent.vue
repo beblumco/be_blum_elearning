@@ -82,7 +82,7 @@
                                             <th>Nombre</th>
                                             <th>Propietario</th>
                                             <th>Fecha Creación</th>
-                                            <th>Acciones</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -474,7 +474,7 @@
                                 <thead>
                                     <tr>
                                         <th>Documento cargado</th>
-                                        <th>Acciones</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>

@@ -542,13 +542,53 @@ class MyOrganizationController extends Controller
 
     public function getCompaniesGroup()
     {
+        $data = CentroOperacion::select('centro_operacion.id', 'centro_operacion.nombre as name')
+        ->join('unidad as u', 'u.centro_operacion_id', 'centro_operacion.id')
+        ->join('punto_evaluacion as pe', 'pe.unidad_id', 'u.id')
+        ->where([
+            ['centro_operacion.estado', 1],
+            ['centro_operacion.main_account_id', \Auth::user()->main_account_id]
+        ])
+        ->groupBy('centro_operacion.id');
+
+        if(auth()->user()->savk_principal == 1){// PRINCIPAL
+            //NO TIENE RESTRICCIONES
+        }else if(auth()->user()->id_grupo == 30 || auth()->user()->id_grupo == 39){// ASESOR
+            $data->where('centro_operacion.asesor_id', \Auth::user()->id);
+        }else if(auth()->user()->id_grupo == 44){// LIDER GRUPO EMPRESA
+            $lider = SavkLideresGrupoEmpresa::where('id_usuario', \Auth::user()->id)->pluck('id_grupo_empresa')->toArray();
+            $data->whereIn('centro_operacion.id', $lider);
+        }else if(auth()->user()->id_grupo == 45){// LIDER EMPRESA
+            $lider = SavkLideresEmpresa::where('id_usuario', \Auth::user()->id)->pluck('id_empresa')->toArray();
+            $data->whereIn('u.id', $lider);
+        }else if(auth()->user()->id_grupo == 46){// LIDER ZONA
+            $lider = SavkLideresZonas::join('grupos_sub_puntos', 'grupos_sub_puntos.grupo_punto_id', 'id_grupos_puntos')
+            ->where('id_usuario',auth()->user()->id)
+            ->pluck('punto_id')->toArray();
+
+            $data->whereIn('pe.id', $lider);
+        }else if(auth()->user()->id_grupo == 47){// LIDER CENTRO DE COSTO
+            $lider = SavkLideresCentroDeCostos::select('savk_lideres_centro_de_costos.id_centro_de_costo')
+            ->where('id_usuario', Auth::user()->id)
+            ->pluck('id_centro_de_costo')->toArray();
+
+            $data->whereIn('pe.id', $lider);
+        }else{
+            $data->where('pe.id', 0);
+        }
+
         return response()->json([
             'status' => 200,
-            'data' => CentroOperacion::select('id', 'nombre as name')->where([
-                ['estado', 1],
-                ['centro_operacion.main_account_id', \Auth::user()->main_account_id]
-            ])->get()
+            'data' => $data->get()
         ]);
+
+        // return response()->json([
+        //     'status' => 200,
+        //     'data' => CentroOperacion::select('id', 'nombre as name')->where([
+        //         ['estado', 1],
+        //         ['centro_operacion.main_account_id', \Auth::user()->main_account_id]
+        //     ])->get()
+        // ]);
     }
 
     //FIN GRUPO EMPRESA
@@ -771,10 +811,42 @@ class MyOrganizationController extends Controller
 
     public function getCompaniesAll()
     {
-        return Unidad::select('id', 'nombre as name')->where([
-            ['estado', 1],
+        $data = Unidad::select('unidad.id', 'unidad.nombre as name')
+        ->join('centro_operacion as co', 'co.id', 'unidad.centro_operacion_id')
+        ->join('punto_evaluacion as pe', 'pe.unidad_id', 'unidad.id')
+        ->where([
+            ['unidad.estado', 1],
             ['unidad.main_account_id', \Auth::user()->main_account_id]
-        ])->get();
+        ])
+        ->groupBy('unidad.id');;
+
+        if(auth()->user()->savk_principal == 1){// PRINCIPAL
+            //NO TIENE RESTRICCIONES
+        }else if(auth()->user()->id_grupo == 30 || auth()->user()->id_grupo == 39){// ASESOR
+            $data->where('co.asesor_id', \Auth::user()->id);
+        }else if(auth()->user()->id_grupo == 44){// LIDER GRUPO EMPRESA
+            $lider = SavkLideresGrupoEmpresa::where('id_usuario', \Auth::user()->id)->pluck('id_grupo_empresa')->toArray();
+            $data->whereIn('co.id', $lider);
+        }else if(auth()->user()->id_grupo == 45){// LIDER EMPRESA
+            $lider = SavkLideresEmpresa::where('id_usuario', \Auth::user()->id)->pluck('id_empresa')->toArray();
+            $data->whereIn('u.id', $lider);
+        }else if(auth()->user()->id_grupo == 46){// LIDER ZONA
+            $lider = SavkLideresZonas::join('grupos_sub_puntos', 'grupos_sub_puntos.grupo_punto_id', 'id_grupos_puntos')
+            ->where('id_usuario',auth()->user()->id)
+            ->pluck('punto_id')->toArray();
+
+            $data->whereIn('pe.id', $lider);
+        }else if(auth()->user()->id_grupo == 47){// LIDER CENTRO DE COSTO
+            $lider = SavkLideresCentroDeCostos::select('savk_lideres_centro_de_costos.id_centro_de_costo')
+            ->where('id_usuario', Auth::user()->id)
+            ->pluck('id_centro_de_costo')->toArray();
+
+            $data->whereIn('pe.id', $lider);
+        }else{
+            $data->where('pe.id', 0);
+        }
+
+        return $data->get();
     }
     //FIN EMPRESA
 
@@ -1171,11 +1243,11 @@ class MyOrganizationController extends Controller
                 'usuarios.id_seccion',
                 'usuarios.can_to_approve',
                 \DB::raw("
-                (CASE
-                    WHEN usuarios.estado = '1' THEN 'Activo'
-                    WHEN usuarios.estado = '2' THEN 'Inactivo'
-                END) AS estado
-            "),
+                    (CASE
+                        WHEN usuarios.estado = '1' THEN 'Activo'
+                        WHEN usuarios.estado = '2' THEN 'Inactivo'
+                    END) AS estado
+                "),
                 'usuarios.cargo_id',
                 'ca.nombre AS cargo',
                 'pa.nombre AS pais',
@@ -1188,13 +1260,19 @@ class MyOrganizationController extends Controller
                 'savk_perfil_id',
                 'id_grupo',
                 'g.nombre as nombre_perfil',
-                'usuarios.id_punto'
+                'usuarios.id_punto',
+                'pe.nombre as punto',
+                'u.nombre as empresa',
+                'co.nombre as grupo_empresa'
             )
             ->leftJoin('paises AS pa', 'pa.id', 'usuarios.pais_id')
             ->leftJoin('departamenos AS de', 'de.id', 'usuarios.departamento_id')
             ->leftJoin('ciudades AS c', 'c.id', 'usuarios.ciudad_id')
             ->leftJoin('cargos AS ca', 'ca.id', 'usuarios.cargo_id')
-            ->leftJoin('grupo AS g', 'g.id', 'usuarios.id_grupo');
+            ->leftJoin('grupo AS g', 'g.id', 'usuarios.id_grupo')
+            ->leftJoin('punto_evaluacion AS pe', 'pe.id', 'usuarios.id_punto')
+            ->leftJoin('unidad AS u', 'u.id', 'pe.unidad_id')
+            ->leftJoin('centro_operacion AS co', 'co.id', 'u.centro_operacion_id');
 
             if (sizeof($whereIn) > 0) {
                 $data->where($where);
@@ -1212,6 +1290,27 @@ class MyOrganizationController extends Controller
                         ->orWhere('usuarios.email', 'LIKE', "%$search%");
                 });
             }
+
+            $filters = $request->get('filters');
+            $data->when(isset($filters['estado']['id']) && $filters['estado']['id'] != '0', function($query) use ($filters){
+                return $query->where('usuarios.estado', $filters['estado']['id']);
+            });
+
+            $data->when(isset($filters['perfil']['id']) && $filters['perfil']['id'] != '0', function($query) use ($filters){
+                return $query->where('usuarios.id_grupo', $filters['perfil']['id']);
+            });
+
+            $data->when(isset($filters['grupo_empresa']['id']) && $filters['grupo_empresa']['id'] != '0', function($query) use ($filters){
+                return $query->where('co.id', $filters['grupo_empresa']['id']);
+            });
+
+            $data->when(isset($filters['empresa']['id']) && $filters['empresa']['id'] != '0', function($query) use ($filters){
+                return $query->where('u.id', $filters['empresa']['id']);
+            });
+
+            $data->when(isset($filters['centro_costo']['id']) && $filters['centro_costo']['id'] != '0', function($query) use ($filters){
+                return $query->where('pe.id', $filters['centro_costo']['id']);
+            });
 
             $data = $data->orderBy('usuarios.nombre_com')->paginate($cant_pag);
 
@@ -1232,7 +1331,8 @@ class MyOrganizationController extends Controller
             return DB::table('grupo')->select('id', 'nombre as name')
             ->where([
                 ['estado', 1],
-                ['tipo_perfil', 1]
+                ['tipo_perfil', 1],
+                ['id','<>', 46]
             ])
             ->orWhere('id', 30)
             ->get();

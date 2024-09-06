@@ -1,6 +1,6 @@
 <template>
-    <div class="col-sm-4">
-        <div class="card" style="width: 22rem;">
+    <div class="col-md-4 col-sm-6 col-12">
+        <div class="card" >
 
             <div class="contenedor">
                 <div class="col-lg-12 d-flex justify-content-end mb-3 icono-encima">
@@ -34,7 +34,7 @@
 
             <div class="card-body">
                 <div class="new-arrival-content position-relative titulo-card">
-                    <spam>{{ data_training.nombre }}</spam>
+                    <span>{{ data_training.nombre }}</span>
                 </div>
                 <!-- <div class="row mb-3">
                     <div class="col-sm-3 col-4">

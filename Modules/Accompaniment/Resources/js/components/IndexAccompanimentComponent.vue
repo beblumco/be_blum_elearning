@@ -344,7 +344,7 @@
     role="dialog"
     aria-hidden="true"
   >
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">{{ tituloFiltro }}</h5>
@@ -353,9 +353,9 @@
           </button>
         </div>
         <div class="modal-body">
-          <div v-if="modeFiltro == 1" class="row m-auto">
+          <div v-if="modeFiltro == 1" class="row">
             <!-- INIT INPUT -->
-            <div class="mb-3 row col-lg-6">
+            <div class="mb-3 col-lg-12">
               <label for="name" class="col-form-label">
                 Fecha Inicial: <span style="color: red">*</span></label
               >
@@ -371,7 +371,7 @@
               </div>
             </div>
             <!-- INIT INPUT -->
-            <div class="mb-3 row col-lg-6">
+            <div class="mb-3 col-lg-12">
               <label for="name" class="col-form-label">
                 Fecha Final: <span style="color: red">*</span></label
               >
@@ -387,9 +387,9 @@
               </div>
             </div>
           </div>
-          <div v-if="modeFiltro == 2" class="row m-auto">
+          <div v-if="modeFiltro == 2" class="row">
             <!-- INIT INPUT -->
-            <div class="mb-3 row col-lg-6">
+            <div class="mb-3 col-lg-12">
               <label for="name" class="col-form-label">
                 Modalidad: <span style="color: red">*</span></label
               >
@@ -407,9 +407,9 @@
               </div>
             </div>
           </div>
-          <div v-if="modeFiltro == 3" class="row m-auto">
+          <div v-if="modeFiltro == 3" class="row">
             <!-- INIT INPUT -->
-            <div class="mb-3 row col-lg-6">
+            <div class="mb-3 col-lg-12">
               <label for="name" class="col-form-label">
                 Tipo: <span style="color: red">*</span></label
               >
@@ -427,9 +427,9 @@
               </div>
             </div>
           </div>
-          <div v-if="modeFiltro == 5" class="row m-auto">
+          <div v-if="modeFiltro == 5" class="row">
             <!-- INIT INPUT -->
-            <div class="mb-3 row col-lg-6">
+            <div class="mb-3 col-lg-12">
               <label for="name" class="col-form-label">
                 Realizado por: <span style="color: red">*</span></label
               >
@@ -447,9 +447,9 @@
               </div>
             </div>
           </div>
-          <div v-if="modeFiltro == 6" class="row m-auto">
+          <div v-if="modeFiltro == 6" class="row">
             <!-- INIT INPUT -->
-            <div class="mb-3 row col-lg-6">
+            <div class="mb-3 col-lg-12">
               <label for="name" class="col-form-label">
                 Centro de costo: <span style="color: red">*</span></label
               >

@@ -27,25 +27,29 @@
               <thead>
                 <tr class="">
                   <th>Categoría</th>
-                  <th>Fecha</th>
+                  <!-- <th>Fecha</th> -->
                   <th>Capacitación</th>
-                  <th>Duración (Horas)</th>
-                  <th>Asistentes</th>
-                  <th>Asesor experto</th>
-                  <th>Modalidad</th>
-                  <th>Tipo</th>
+                  <th>Tiempo (Horas)</th>
+                  <!-- <th>Asistentes</th> -->
+                  <th>Certificados</th>
+                  <th>Creada por</th>
+                  <th>Asignación</th>
+                  <th>Grupo empresa</th>
+                  <th>Empresa</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="result in data.data_table" :key="result.id">
                   <td>{{ result.categoria }}</td>
-                  <td>{{ result.fecha }}</td>
+                  <!-- <td>{{ result.fecha }}</td> -->
                   <td>{{ result.capacitacion }}</td>
-                  <td>{{ result.duracion * result.asistentes }}</td>
-                  <td>{{ result.asistentes }}</td>
+                  <td>{{ result.duracion * result.certificados }}</td>
+                  <!-- <td>{{ result.asistentes }}</td> -->
+                  <td>{{ result.certificados }}</td>
                   <td>{{ result.asesor }}</td>
-                  <td>{{ result.modalidad }}</td>
-                  <td>{{ result.tipo }}</td>
+                  <td>{{ result.asignacion }}</td>
+                  <td>{{ result.grupo_empresa }}</td>
+                  <td>{{ result.empresa }}</td>
                 </tr>
               </tbody>
             </table>

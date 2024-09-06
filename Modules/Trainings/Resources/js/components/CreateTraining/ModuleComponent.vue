@@ -9,8 +9,8 @@
                             {{ data_component.nombre }}
                         </span>
                         <div class="">
-                            <!-- <i class="la la-pencil dev-fonts-icon dev-fonts-color-white" @click.stop="EmitEditInformation"></i>
-                            <i class="la la-trash dev-fonts-icon dev-fonts-color-white" @click.stop="EmitDeleteModule"></i> -->
+                            <!-- <i class="la la-pencil dev-fonts-icon-mod dev-fonts-color-white" @click.stop="EmitEditInformation"></i>
+                            <i class="la la-trash dev-fonts-icon-mod dev-fonts-color-white" @click.stop="EmitDeleteModule"></i> -->
                             <button class="btn btn-sm btn-barrat" @click.stop="EmitEditInformation">Editar</button>
                             <button class="btn btn-sm btn-barrat ml-1" @click.stop="EmitDeleteModule">Eliminar</button>
                         </div>
@@ -20,21 +20,21 @@
                 <div :class="`collapse accordion__body ${(data.component_collapse ? 'show' : '')} row`">
                     <div :id="'dv-crear-video-cap-'+this.contador" :class="`col-lg-2 mt-4 d-flex justify-content-center flex-wrap dev-cursor-pointer dev-section-card ${(data_component.tiene_video == 0 ? '' : 'active')}`" @click.stop="OnClickVideoPopUp">
                         <div class="border border-primary rounded-circle p-3" style="border-color: #002F54 !important">
-                           <i class="la la-video dev-fonts-icon dev-fonts-color-primary"></i>
+                           <i class="la la-video dev-fonts-icon-mod dev-fonts-color-primary"></i>
                         </div>
                         <p class="col-lg-12 text-center">Video</p>
                     </div>
 
                     <div :id="'dv-crear-recursos-cap-'+this.contador" :class="`col-lg-2 mt-4 d-flex justify-content-center flex-wrap dev-cursor-pointer dev-section-card ${(data_component.tiene_contenido == 0 ? '' : 'active')}`" @click.stop="OnClickContentPopUp">
                         <div class="border border-primary rounded-circle p-3" style="border-color: #002F54 !important">
-                           <i class="la la-files-o dev-fonts-icon dev-fonts-color-primary"></i>
+                           <i class="la la-files-o dev-fonts-icon-mod dev-fonts-color-primary"></i>
                         </div>
                         <p class="col-lg-12 text-center">Recursos</p>
                     </div>
 
                     <div :id="'dv-crear-evaluacion-cap-'+this.contador" v-if="assessBy == 2" :class="`col-lg-2 mt-4 d-flex justify-content-center flex-wrap dev-cursor-pointer dev-section-card ${(data_component.tiene_preguntas == 0 ? '' : 'active')}`" @click.stop="OnClickTestPopUp">
                         <div class="border border-primary rounded-circle p-3" style="border-color: #002F54 !important">
-                           <i class="la la-list-alt dev-fonts-icon dev-fonts-color-primary"></i>
+                           <i class="la la-list-alt dev-fonts-icon-mod dev-fonts-color-primary"></i>
                         </div>
                         <p class="col-lg-12 text-center">Evaluación</p>
                     </div>
@@ -123,7 +123,7 @@ export default {
     justify-content: center;
 }
 
-.dev-fonts-icon
+.dev-fonts-icon-mod
 {
     font-size: 30px;
 }

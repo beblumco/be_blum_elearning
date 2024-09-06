@@ -282,11 +282,11 @@
                                     <label>Nombre del módulo: <span class="dev-required">{{ (data.modules_section.modal_module_information.form_data.name.required ? '*' : '') }}</span></label>
                                     <input type="text" v-model="data.modules_section.modal_module_information.form_data.name.value" class="form-control" placeholder="...">
                                 </div>
-                                <div class="form-group col-md-6">
+                                <!-- <div class="form-group col-md-6">
                                     <label>Descripción: <span class="dev-required">{{ (data.modules_section.modal_module_information.form_data.description.required ? '*' : '') }}</span></label>
                                     <textarea class="form-control" v-model="data.modules_section.modal_module_information.form_data.description.value" rows="4" placeholder="..."></textarea>
-                                </div>
-                                <div class="form-group col-md-6">
+                                </div> -->
+                                <!-- <div class="form-group col-md-6">
                                     <label>Imagen: <span class="dev-required">{{ ( data.modules_section.modal_module_information.form_data.image.required ? '*' : '') }}</span></label>
                                     <div class="input-group">
                                         <div class="custom-file">
@@ -294,11 +294,11 @@
                                             <label class="custom-file-label">{{ data.modules_section.modal_module_information.default.label_file }}</label>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-group col-md-6">
+                                </div> -->
+                                <!-- <div class="form-group col-md-6">
                                     <label>Porcentaje para aprobar: <span class="dev-required">{{ (data.modules_section.modal_module_information.form_data.percentage.required ? '*' : '') }}</span></label>
                                     <input type="text" v-model="data.modules_section.modal_module_information.form_data.percentage.value" class="form-control" placeholder="...">
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -323,6 +323,10 @@
                     </div>
                     <div class="modal-body p-2 ">
                         <div class="col-lg-12 dev-over-flow dev_container_questions">
+                            <div class="form-inline col-md-6">
+                                <label>Porcentaje de aprobación: <span class="dev-required">{{ (data.form_data.porcentajeAprobacion.required ? '*' : '') }}</span></label>
+                                <input type="text" class="form-control ml-3 mt-2" @input="validarNumeros" v-model.lazy="data.form_data.porcentajeAprobacion.value">
+                            </div>
                             <p class="col-lg-12 dev-subtitle">Esta sección es para que puedes ir agregando las preguntas que tendrá la evaluación del módulo, <strong>agregue las preguntas y seleccione la/las respuestas correctas.</strong></p>
                             <question-component v-for="question in data.section_test.data_test" :key="question.id" :data-id="question.id" :data_test="question" @scroll_down="FunctionScrollDown" @remove_question="RemoveQuestion" class="questions_class"></question-component>
                         </div>
@@ -343,7 +347,7 @@
                     <div class="modal-header">
                         <div class="col-lg-12 d-flex justify-content-between align-items-center flex-wrap">
                             <h5 class="modal-title">Agregar recurso</h5>
-                            <button class="btn btn-success dev-font-11" @click="OnClickAddContent">Agregar recurso</button>
+                            <button class="btn btn-primary dev-font-11" @click="OnClickAddContent">Agregar recurso</button>
                         </div>
                     </div>
                     <div class="modal-body">
@@ -616,7 +620,14 @@
                             switch (this.data.tab_selected)
                             {
                                 case 1: //TRAINING
+                                    this.data.training_section.default.main_account_id = data.main_account_id
+                                    this.filterOptions(); //quita el webinar para main account 2
+
                                     this.data.training_section.operations_center = data.operation_center.map(({id, nombre}) => ({id: id, text: nombre}));
+                                    this.data.training_section.operations_center = [
+                                        { id: '0', text: "Seleccionar todos" },
+                                        ...data.operation_center.map(({ id, nombre }) => ({ id: id, text: nombre }))
+                                    ];
 
                                     this.data.training_section.sectors = data.sectors.map(({id, nombre}) => ({id: id, text: nombre}));
 

@@ -570,6 +570,13 @@ class TrainingsController extends Controller
             case 2: //MIS CAPACITACIONES
                 $operation_center = CentroOperacion::GetOperationCenterByUser();
 
+                $trainings_sector = $trainings_sector->orWhere(['sector.id' => $operation_center->sector_id]);
+
+                $trainings_sector = $trainings_sector->where([
+                    ['usuarios.main_account_id', '=', $this->main_account_id],
+                    ['ca_capacitaciones.tipo_capacitacion', '!=', '3']
+                ]);
+
                 $training_gp = $training_gp->where([
                     ['centro_operacion.id', $operation_center->id],
                     ['usuarios.main_account_id', '=', $main_account_id],
@@ -578,7 +585,8 @@ class TrainingsController extends Controller
                 ->orWhere('ca_capacitaciones.id_usuario', auth()->user()->id)
                 ->groupBy('ca_capacitaciones.id');
 
-                $trainings_sector = $training_gp->get();
+                $trainings_sector->union($training_gp);
+                $trainings_sector = $trainings_sector->get();
                 break;
 
             default:
@@ -1079,6 +1087,7 @@ class TrainingsController extends Controller
             $where = [
                 ['ca_evaluacion_iniciada.certificado', '=', '1'],
                 ['ca_evaluacion_iniciada.last_approved', '=', '1'],
+                ['ca.tipo_capacitacion', '<>', '2']
             ];
             $whereIn = [];
 
@@ -1114,6 +1123,12 @@ class TrainingsController extends Controller
             $data = CaEvaluacionIniciada::select(
                 'usu.nombre_com as Nombre',
                 'usu.codigo as Identificación',
+                \DB::raw("
+                    (CASE
+                        WHEN usu.estado = '1' THEN 'Activo'
+                        WHEN usu.estado = '2' THEN 'Inactivo'
+                    END) AS Estado
+                "),
                 's.nombre as Sección',
                 \DB::raw('IF(mo.nombre is null, concat("Capacitación ",ca.nombre), concat("Modulo ",mo.nombre)) as certificado'),
                 \DB::raw('ROUND(ca.tiempo_minutos/60, 1) as `tiempo_Hr(s)`'),
@@ -1121,12 +1136,17 @@ class TrainingsController extends Controller
                 'ca_evaluacion_iniciada.id_capacitacion',
                 'ca_evaluacion_iniciada.id_usuario',
                 'ca_evaluacion_iniciada.id_modulo',
+                \DB::raw("(SELECT max(ca2.duracion) FROM ca_cap_asistidas ca2
+                    inner join  ca_capacitaciones_asistidas_asistentes caa on ca2.id = caa.id_capacitacion_asistida
+                    where ca2.id_capacitacion = ca.id && tipo = 2 && caa.id_usuario = ca_evaluacion_iniciada.id_usuario) as asistida"
+                )
             )
             ->join('ca_capacitaciones as ca', 'ca_evaluacion_iniciada.id_capacitacion', 'ca.id')
             ->leftjoin('ca_modulos as mo', 'ca_evaluacion_iniciada.id_modulo', 'mo.id')
             ->join('usuarios as usu', 'ca_evaluacion_iniciada.id_usuario', 'usu.id')
             ->leftJoin('savk_secciones as s', 'usu.id_seccion', 's.id')
-            ->where($where);
+            ->where($where)
+            ->havingRaw('asistida IS NULL');
 
             if (sizeof($whereIn) > 0) {
                 $data = $data->whereIn('usu.id_punto', $whereIn);
@@ -1736,6 +1756,8 @@ class TrainingsController extends Controller
         $where = [
             ['ca_evaluacion_iniciada.certificado', '=', '1'],
             ['ca_evaluacion_iniciada.last_approved', '=', '1'],
+            ['ca.tipo_capacitacion', '<>', '2'], //No traer asistidas por experto
+            // ['usu.estado', '=', '1'], //solo usuarios activos
         ];
 
         if (auth()->user()->savk_principal == 1) {
@@ -1799,11 +1821,21 @@ class TrainingsController extends Controller
                 'ca.permitir_certificacion',
                 'ca.evaluara_por',
                 \DB::raw('ROUND(ca.tiempo_minutos/60, 1) as tiempo'),
-                'mo.id as id_modulo',
+                'mo.id as id_modulos',
                 'mo.nombre as nom_modulo',
                 'usu.nombre_com as nombre',
                 'usu.codigo as documento',
-                'ca.puntos'
+                \DB::raw("
+                    (CASE
+                        WHEN usu.estado = '1' THEN 'Activo'
+                        WHEN usu.estado = '2' THEN 'Inactivo'
+                    END) AS estado
+                "),
+                'ca.puntos',
+                \DB::raw("(SELECT max(ca2.duracion) FROM ca_cap_asistidas ca2
+                    inner join  ca_capacitaciones_asistidas_asistentes caa on ca2.id = caa.id_capacitacion_asistida
+                    where ca2.id_capacitacion = ca.id && tipo = 2 && caa.id_usuario = ca_evaluacion_iniciada.id_usuario) as asistida"
+                )
             )
             ->join('ca_capacitaciones as ca', 'ca_evaluacion_iniciada.id_capacitacion', 'ca.id')
             ->leftjoin('ca_modulos as mo', 'ca_evaluacion_iniciada.id_modulo', 'mo.id')
@@ -1815,7 +1847,8 @@ class TrainingsController extends Controller
                     ->orWhere('ca_evaluacion_iniciada.fecha_terminada', 'LIKE', "%$search%")
                     ->orWhere('usu.nombre_com', 'LIKE', "%$search%")
                     ->orWhere('usu.codigo', 'LIKE', "%$search%");
-            });
+            })
+            ->havingRaw('asistida IS NULL');
 
         if(sizeof($whereIn) > 0){
             $data = $data->whereIn('usu.id_punto', $whereIn);
@@ -1823,7 +1856,99 @@ class TrainingsController extends Controller
         $data = $data->orderBy('ca_evaluacion_iniciada.fecha_terminada', 'desc')->paginate($cant_pag);
 
             foreach ($data as $key => $d) {
-                $d->intentos = $evaluacionIniciada->intentosEvaluacion($d->id_capacitacion, $d->id_usuario, $d->id_modulo);
+                $d->intentos = $evaluacionIniciada->intentosEvaluacion($d->id_capacitacion, $d->id_usuario, $d->id_modulos);
+            }
+
+        return response()->json([
+            'status' => 200,
+            'data' => $data
+        ]);
+    }
+
+    public function getAllCertificatesClient(Request $request, CaEvaluacionIniciada $evaluacionIniciada)
+    {
+        $cant_pag = 10;
+        $search = '';
+
+        if (sizeof($request->get('paginate')) > 0) {
+            $cant_pag = $request->paginate['cant'];
+        }
+
+        $whereIn=[];
+        $where = [
+            ['ca_evaluacion_iniciada.certificado', '=', '1'],
+            ['ca_evaluacion_iniciada.last_approved', '=', '1'],
+            ['ca.tipo_capacitacion', '<>', '2'], //No traer asistidas por experto
+            // ['usu.estado', '=', '1'], //solo usuarios activos
+        ];
+
+        $permisos = $this->GetAllPermisos();
+        if($permisos->pluck('evento')->contains('ent-ele-certificados_cliente')){
+            $grupoEmpresa = CentroOperacion::where('asesor_id',auth()->user()->id)->pluck('id')->toArray();
+            $empresa = Unidad::whereIn('centro_operacion_id', $grupoEmpresa)->pluck('id')->toArray();
+            $whereIn = PuntoEvaluacion::whereIn('unidad_id', $empresa)->pluck('id')->toArray();
+
+            if (sizeof($whereIn) == 0) {
+                //NO TIENE GRUPO EMPRESA ASIGNADO
+                array_push($where, ['usu.id', '=', null]); //SE DEJA CONDICIONAL PARA QUE NO DEVUELVA NADA
+            }
+        }else{
+            array_push($where, ['usu.id', '=', null]); //SE DEJA CONDICIONAL PARA QUE NO DEVUELVA NADA
+        }
+
+        if (strlen($request->get('search')) != 0) {
+            $search = $request->search;
+        }
+
+        // $data = $users->getAll($where, $cant_pag);
+        $data = $evaluacionIniciada
+            ->select(
+                'ca_evaluacion_iniciada.*',
+                'ca.nombre as nom_capacitacion',
+                'ca.permitir_certificacion',
+                'ca.evaluara_por',
+                \DB::raw('ROUND(ca.tiempo_minutos/60, 1) as tiempo'),
+                'mo.id as id_modulos',
+                'mo.nombre as nom_modulo',
+                'usu.nombre_com as nombre',
+                'usu.codigo as documento',
+                'co.nombre as grupo_empresa',
+                'uni.nombre as empresa',
+                \DB::raw("
+                    (CASE
+                        WHEN usu.estado = '1' THEN 'Activo'
+                        WHEN usu.estado = '2' THEN 'Inactivo'
+                    END) AS estado
+                "),
+                'ca.puntos',
+                \DB::raw("(SELECT max(ca2.duracion) FROM ca_cap_asistidas ca2
+                    inner join  ca_capacitaciones_asistidas_asistentes caa on ca2.id = caa.id_capacitacion_asistida
+                    where ca2.id_capacitacion = ca.id && tipo = 2 && caa.id_usuario = ca_evaluacion_iniciada.id_usuario) as asistida"
+                )
+            )
+            ->join('ca_capacitaciones as ca', 'ca_evaluacion_iniciada.id_capacitacion', 'ca.id')
+            ->leftjoin('ca_modulos as mo', 'ca_evaluacion_iniciada.id_modulo', 'mo.id')
+            ->join('usuarios as usu', 'ca_evaluacion_iniciada.id_usuario', 'usu.id')
+            ->leftjoin('punto_evaluacion as pe','pe.id','usu.id_punto')
+            ->leftjoin('unidad as uni','uni.id','pe.unidad_id')
+            ->leftjoin('centro_operacion as co','co.id','uni.centro_operacion_id')
+            ->where($where)
+            ->where(function ($query) use ($search) {
+                $query->where('ca.nombre', 'LIKE', "%$search%")
+                    ->orWhere('mo.nombre', 'LIKE', "%$search%")
+                    ->orWhere('ca_evaluacion_iniciada.fecha_terminada', 'LIKE', "%$search%")
+                    ->orWhere('usu.nombre_com', 'LIKE', "%$search%")
+                    ->orWhere('usu.codigo', 'LIKE', "%$search%");
+            })
+            ->havingRaw('asistida IS NULL');
+
+        if(sizeof($whereIn) > 0){
+            $data = $data->whereIn('usu.id_punto', $whereIn);
+        }
+        $data = $data->orderBy('ca_evaluacion_iniciada.fecha_terminada', 'desc')->paginate($cant_pag);
+
+            foreach ($data as $key => $d) {
+                $d->intentos = $evaluacionIniciada->intentosEvaluacion($d->id_capacitacion, $d->id_usuario, $d->id_modulos);
             }
 
         return response()->json([
@@ -1864,6 +1989,7 @@ class TrainingsController extends Controller
             ['ca_evaluacion_iniciada.id_usuario', '=', auth()->user()->id],
             ['ca_evaluacion_iniciada.certificado', '=', '1'],
             ['ca_evaluacion_iniciada.last_approved', '=', '1'],
+            ['ca.tipo_capacitacion', '<>', '2'], //No traer asistidas por experto
         ];
 
         if (strlen($request->get('search')) != 0) {
@@ -1878,11 +2004,15 @@ class TrainingsController extends Controller
                 'ca.permitir_certificacion',
                 'ca.evaluara_por',
                 \DB::raw('ROUND(ca.tiempo_minutos/60, 1) as tiempo'),
-                'mo.id as id_modulo',
+                'mo.id as id_modulos',
                 'mo.nombre as nom_modulo',
                 'usu.nombre_com as nombre',
                 'usu.codigo as documento',
-                'ca.puntos'
+                'ca.puntos',
+                \DB::raw("(SELECT max(ca2.duracion) FROM ca_cap_asistidas ca2
+                    inner join  ca_capacitaciones_asistidas_asistentes caa on ca2.id = caa.id_capacitacion_asistida
+                    where ca2.id_capacitacion = ca.id && tipo = 2 && caa.id_usuario = ca_evaluacion_iniciada.id_usuario) as asistida"
+                )
             )
             ->join('ca_capacitaciones as ca', 'ca_evaluacion_iniciada.id_capacitacion', 'ca.id')
             ->leftjoin('ca_modulos as mo', 'ca_evaluacion_iniciada.id_modulo', 'mo.id')
@@ -1893,11 +2023,12 @@ class TrainingsController extends Controller
                     ->orWhere('mo.nombre', 'LIKE', "%$search%")
                     ->orWhere('ca_evaluacion_iniciada.fecha_terminada', 'LIKE', "%$search%");
             })
+            ->havingRaw('asistida IS NULL')
             ->orderBy('ca_evaluacion_iniciada.fecha_terminada', 'desc')
             ->paginate($cant_pag);
 
         foreach ($data as $key => $d) {
-            $d->intentos = $evaluacionIniciada->intentosEvaluacion($d->id_capacitacion, $d->id_usuario, $d->id_modulo);
+            $d->intentos = $evaluacionIniciada->intentosEvaluacion($d->id_capacitacion, $d->id_usuario, $d->id_modulos);
         }
 
 
@@ -2040,6 +2171,8 @@ class TrainingsController extends Controller
                     ->paginate(10);
         }
 
+        $evaluacionIniciada = new CaEvaluacionIniciada;
+
         if((Auth::user()->savk_principal != 1 && Auth::user()->id_grupo != 44 && Auth::user()->id_grupo != 45 && Auth::user()->id_grupo != 46 && Auth::user()->id_grupo != 47 && !$permisos->pluck('evento')->contains('ent-asi-crear_asistida')) || ($validarLider == false)) {
             $msj = null;
             if ($validarLider == false) {
@@ -2064,11 +2197,49 @@ class TrainingsController extends Controller
                 ->where('cas.id_usuario', Auth::user()->id )
                 ->paginate(10);
 
+            foreach ($data as $d) {
+                $d->asistentes = DB::select("SELECT
+                    usu.id AS ID_ASISTENTE,
+                    usu.nombre_com AS NOMBRE_ASISTENTE,
+                    usu.email AS CORREO_ASISTENTE,
+                    usu.codigo AS NUMERO_DOC_ASISTENTE,
+                    cap.signature_path,
+                    (
+                        SELECT id FROM ca_evaluacion_iniciada ei
+                        where ei.id_capacitacion = capAsis.id_capacitacion && ei.id_usuario = usu.id && ei.last_approved = 1 && ei.certificado = 1 limit 1
+                    ) as id_evaluacion,
+                    (
+                        SELECT certificado FROM ca_evaluacion_iniciada ei
+                        where ei.id_capacitacion = capAsis.id_capacitacion && ei.id_usuario = usu.id && ei.last_approved = 1 limit 1
+                    ) as certifica
+                    FROM ca_capacitaciones_asistidas_asistentes cap
+                    INNER JOIN usuarios usu ON usu.id = cap.id_usuario
+                    INNER JOIN ca_cap_asistidas capAsis ON capAsis.id = cap.id_capacitacion_asistida
+                    WHERE cap.id_capacitacion_asistida = ".$d->id." and usu.id = ".Auth::user()->id
+                );
+
+                foreach ($d->asistentes as $key => $asistente) {
+                    $asistente->idsEvaluacion = DB::select(
+                        "SELECT id FROM ca_evaluacion_iniciada ei
+                        where ei.id_capacitacion = $d->id_capacitacion && ei.id_usuario = $asistente->ID_ASISTENTE && ei.last_approved = 1"
+                    );
+
+                    $asistente->intentos = (object) [
+                        'intentos' => 0,
+                        'gano' => 0
+                    ];
+
+                    foreach ($asistente->idsEvaluacion as $key5 => $evaluacion) {
+                        $evalIni = CaEvaluacionIniciada::find($evaluacion->id);
+                        $asistente->intentos = $evaluacionIniciada->intentosEvaluacion($evalIni->id_capacitacion, $evalIni->id_usuario, $evalIni->id_modulo);
+                        $asistente->id_modulo = $evalIni->id_modulo;
+                    }
+                }
+            }
+
             $msj = $msj == null ? 'Datos encontrados' : $msj;
             return $this->ExitProgram(206, $msj, $data);
         }
-
-        $evaluacionIniciada = new CaEvaluacionIniciada;
 
         foreach ($data as $d) {
             $d->img = DB::select(
@@ -3645,7 +3816,7 @@ class TrainingsController extends Controller
                     ,cap.id as id_cap_akl
                     ,ai.created_at as fecha
                     ,cap.nombre as capacitacion
-                    ,(select ca_capacitaciones.id from ca_capacitaciones where ca_capacitaciones.nombre = cap.nombre) as id_capacitacion
+                    ,(select ca_capacitaciones.id from ca_capacitaciones where ca_capacitaciones.nombre = cap.nombre limit 1) as id_capacitacion
                     ,ai.usuario_id as id_asesor
                     ,ai.responsable as anfitrion
                     ,'2' as modalidad

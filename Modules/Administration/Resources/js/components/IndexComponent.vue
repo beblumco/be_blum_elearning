@@ -1,11 +1,119 @@
 <template>
   <div class="container-fluid">
-    <div class="flex-wrap mb-2 align-items-center justify-content-between">
+    <!-- <div class="flex-wrap mb-2 align-items-center justify-content-between"> -->
       <!-- <div class="mb-3 mr-3 col-lg-12 d-flex justify-content-between"> -->
       <!--  <h6 class="fs-16 text-red font-w600 mb-0" style="color: #002f54">{{ Auth::user()->nombre_com }}</h6>-->
       <!-- <button class="btn btn-primary" onclick="OnClickCrearEmpresa(this);">Crear empresa</button> -->
       <!-- </div> -->
-      <div class="row menu-cap">
+    <div class="row menu-cap">
+        <!-- Columna para los botones -->
+        <div class="col-md-6 pt-2 pl-1">
+            <div class="d-flex flex-wrap" id="container_bnts">
+                <button
+                @click="changeMode(4)"
+                class="btn btn-barra mr-2 mb-2"
+                :class="{ 'btn-barra-activo': mode == 4 }"
+                id="btn-org-menu-usuarios"
+                v-if="permisos.includes('org-mio-usuarios')"
+                >
+                    Usuarios
+                </button>
+                <button
+                @click="changeMode(3)"
+                class="btn btn-barra mr-2 mb-2"
+                :class="{ 'btn-barra-activo': mode == 3 }"
+                id="btn-org-menu-centros-costo"
+                v-if="permisos.includes('org-mio-centro_costo')"
+                >
+                    Centros de costo
+                </button>
+                <button
+                v-show="main_account != '2'"
+                @click="changeMode(5)"
+                class="btn btn-barra mr-2 mb-2"
+                :class="{ 'btn-barra-activo': mode == 5 }"
+                id="btn-org-zona"
+                v-if="permisos.includes('org-mio-zona')"
+                >
+                    Zonas
+                </button>
+                <button
+                @click="changeMode(2)"
+                class="btn btn-barra mr-2 mb-2"
+                :class="{ 'btn-barra-activo': mode == 2 }"
+                id="btn-org-menu-empresas"
+                v-if="permisos.includes('org-mio-empresas')"
+                >
+                    Empresas
+                </button>
+                <button
+                @click="changeMode(1)"
+                class="btn btn-barra mr-2 mb-2"
+                :class="{ 'btn-barra-activo': mode == 1 }"
+                id="btn-org-menu-grupo-empresas"
+                v-if="permisos.includes('org-mio-grupo_empresa')"
+                >
+                    Grupo Empresas
+                </button>
+            </div>
+        </div>
+        <!-- Columna para el input de búsqueda -->
+        <div class="col-md-3 pt-2 pl-1">
+            <div class="d-flex flex-wrap">
+                <button
+                class="btn btn-barra-naranja mr-2 mb-2"
+                ref="tour_btn_invite"
+                style="width: max-content"
+                @click="OnClickOpenModalInvitar"
+                id="btn-org-menu-invitar-usuarios"
+                v-if="permisos.includes('org-mio-invitar_usuarios') && mode == 4"
+                >
+                Invitar usuarios
+                </button>
+                <button
+                class="btn btn-barra-naranja mr-2 mb-2"
+                style="width: max-content"
+                ref="tour_btn_create_user"
+                @click="OnClickOpenModal"
+                v-if="
+                    (permisos.includes('org-mio-crear_usuarios') &&
+                        titleButton == 'Crear usuarios') ||
+                    (permisos.includes('org-mio-crear_centro_costo') &&
+                        titleButton == 'Crear centro de costo') ||
+                    (permisos.includes('org-mio-crear_empresa') &&
+                        titleButton == 'Crear empresa') ||
+                    (permisos.includes('org-mio-crear_grupo_empresa') &&
+                        titleButton == 'Crear grupo empresa') ||
+                    (permisos.includes('org-mio-crear_zona') &&
+                        titleButton == 'Crear zona')
+                    "
+                >
+                {{ titleButton }}
+                </button>
+            </div>
+        </div>
+        <div class="col-md-3 pl-1 pr-1">
+            <div class="input-group div-input-busqueda">
+                <input
+                v-model="inputSearch"
+                type="text"
+                class="form-control form-control-busqueda"
+                :title="placeholder"
+                :placeholder="placeholder"
+                @keyup.enter="OnKeyUpSearch()"
+                />
+                <div class="input-group-append" @click="OnKeyUpSearch()">
+                <span class="input-group-text btn-barra-naranja">
+                    <a href="javascript:void(0)" class="aBuscar">
+                    <i class="flaticon-381-search-2"></i>
+                    </a>
+                </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+      <!-- <div class="row menu-cap">
         <div class="container_bnts d-flex" id="container_bnts">
           <div class="btn-menu">
             <button
@@ -120,8 +228,8 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </div> -->
+    <!-- </div> -->
     <div class="row">
       <div class="col-xl-12">
         <div class="tab-content">
@@ -310,9 +418,9 @@ export default {
   cursor: pointer;
 }
 
-.div-input-busqueda{
-    width: 55% !important;
-}
+/* .div-input-busqueda{
+    width: 100% !important;
+} */
 
 .dev-icon-certificate {
   color: #fe634e;
@@ -405,5 +513,9 @@ export default {
 
 .form-control-busqueda {
   height: 45px !important;
+}
+
+button{
+    font-size: 14px;
 }
 </style>

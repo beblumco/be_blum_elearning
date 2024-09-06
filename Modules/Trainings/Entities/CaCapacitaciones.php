@@ -84,10 +84,9 @@ class CaCapacitaciones extends Model
                     ->orWhere(function ($query) use ($filters) {
                         // Array de mapeo de valores
                         $tipoMapping = [
-                            1 => 'K-Learning',
+                            1 => 'E-Learning',
                             2 => 'Asistida por experto',
                             3 => 'Webinar',
-                            // Agrega más valores según sea necesario
                         ];
 
                         // Buscar el valor numérico correspondiente al filtro

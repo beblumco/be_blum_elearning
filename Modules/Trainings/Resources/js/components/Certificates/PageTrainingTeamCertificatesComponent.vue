@@ -3,13 +3,14 @@
         <table id="tableOrganization" class="table card-table display dataTablesCard">
             <thead>
                 <tr class="">
-                    <th>Nombre <i class="bi bi-funnel"></i></th>
-                    <th>Identificación <i class="bi bi-funnel"></i></th>
-                    <th>Certificado <i class="bi bi-funnel"></i></th>
+                    <th>Nombre</th>
+                    <th>Identificación</th>
+                    <th>Estado</th>
+                    <th>Certificado</th>
                     <th>Tiempo</th>
                     <th class="align-middle text-center">Intentos</th>
-                    <th>Fecha <i class="bi bi-funnel"></i></th>
-                    <!-- <th>Puntos <i class="bi bi-funnel"></i></th> -->
+                    <th>Fecha</th>
+                    <!-- <th>Puntos</th> -->
                     <th>
                         <button v-if="data.data.length > 0" class="badge badge-success" @click.prevent="downloadCertificateAll">
                             Descargar todo
@@ -24,6 +25,7 @@
                 <tr v-for="(valor) in data.data" :key="valor.id">
                     <td>{{ valor.nombre }}</td>
                     <td>{{ valor.documento }}</td>
+                    <td>{{ valor.estado }}</td>
                     <td>{{ valor.nom_capacitacion }}</td>
                     <td>{{ valor.tiempo }} Hr(s)</td>
                     <td class="align-middle text-center">
@@ -77,11 +79,11 @@
     <!-- MODAL VER INTENTOS -->
     <div
         class="modal fade"
-        id="modal_view_instantes"
+        id="modal_view_instantes_t"
         tabindex="-1"
         role="dialog"
         aria-hidden="true"
-        ref="modal_view_instantes"
+        ref="modal_view_instantes_t"
     >
         <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -154,11 +156,11 @@
   <!-- MODAL VER EVALUACIÓN -->
   <div
         class="modal fade"
-        id="modal_view_evaluacion"
+        id="modal_view_evaluacion_t"
         tabindex="-1"
         role="dialog"
         aria-hidden="true"
-        ref="modal_view_evaluacion"
+        ref="modal_view_evaluacion_t"
     >
         <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -171,7 +173,7 @@
             </button>
             </div>
             <div class="modal-body">
-                <CardTestComponent :data_test="data.questions" view="true"></CardTestComponent>
+                <CardTestComponent :data_test="data.questions" :view="true"></CardTestComponent>
             </div>
             <div class="modal-footer">
             <button
@@ -261,7 +263,7 @@ export default {
                 switch (rd.responseCode) {
                     case 202:
                         this.data.questions = rd.data.questions;
-                        $("#modal_view_evaluacion").modal("show");
+                        $("#modal_view_evaluacion_t").modal("show");
                         break;
 
                     case 400:
@@ -299,7 +301,7 @@ export default {
                     case 200:
                         this.data.dataSelect = certificado
                         this.data.dataIntentos = rd.data;
-                        $("#modal_view_instantes").modal("show");
+                        $("#modal_view_instantes_t").modal("show");
                         break;
 
                     default:

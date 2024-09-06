@@ -11,7 +11,7 @@ const section_test =
     {
         porcentajeAprobacion:
         {
-            value: 70,
+            value: 75,
             required: true
         }
     }
@@ -42,15 +42,16 @@ const section_test_events =
                 switch (responseCode)
                 {
                     case 202:
-                        if(data.length != 0)
+                        if(data.questions.length != 0)
                         {
-                            Array.from(data).map(pr => {
+                            Array.from(data.questions).map(pr => {
                                 pr.respuestas.map(rta => {
                                     rta.checked = (rta.checked == 0 ? false : true);
                                 });
                             });
                         }
-                        this.data.section_test.data_test = data;
+                        this.data.section_test.data_test = data.questions;
+                        this.data.form_data.porcentajeAprobacion.value = data.porcentajeAprobacion;
                         $('#modal_add_test').modal('show');
                         break;
 
@@ -70,6 +71,7 @@ const section_test_events =
         else
         {
             this.data.section_test.data_test = [];
+            this.data.form_data.porcentajeAprobacion.value = 75;
             $('#modal_add_test').modal('show');
         }
 
@@ -206,6 +208,7 @@ const section_test_events =
             if (!this.data.section_test.id_training) {
                 data_form.append('id_module', this.data.section_test.data_module.id);
                 data_form.append('has_question', this.data.section_test.data_module.tiene_preguntas);
+                data_form.append('porcentajeAprobacion', this.data.form_data.porcentajeAprobacion.value);
             }else{
                 data_form.append('id_capacitacion', this.data.section_test.id_training);
                 data_form.append('has_question', this.data.section_test.hasTestTraining);

@@ -238,7 +238,11 @@ class TrainingsAdministrationController extends Controller
                     $operation_center = CentroOperacion::GetAllOperationCenter();
                 $sectors = Sector::GetAllSectors();
 
-                return $this->ExitProgram(202, $this->MessageResponse('Data', 202), ['current_training' => $current_training, 'operation_center' => $operation_center, 'sectors' => $sectors]);
+                return $this->ExitProgram(
+                    202,
+                     $this->MessageResponse('Data', 202),
+                    ['current_training' => $current_training, 'operation_center' => $operation_center, 'sectors' => $sectors, 'main_account_id' => Auth::user()->main_account_id]
+                );
                 break;
 
             case 2: //MODULES
@@ -388,7 +392,8 @@ class TrainingsAdministrationController extends Controller
 
         $instace_capacitaciones = new CaCapacitaciones();
         if ($id_module) { //Se valida si evaluación es por modulo o capacitacion
-            $instace_capacitaciones->where('id', '=', $id_capacitacion)->update(['porcentaje_aprobacion' => null]);
+            // $instace_capacitaciones->where('id', '=', $id_capacitacion)->update(['porcentaje_aprobacion' => null]);
+            CaModulos::where('id', $id_module)->update(['porcentaje_aprueba' => $porcentajeAprobacion]);
         } else {
             $instace_capacitaciones->where('id', '=', $id_capacitacion)->update(['porcentaje_aprobacion' => $porcentajeAprobacion]);
         }
@@ -457,11 +462,12 @@ class TrainingsAdministrationController extends Controller
     public function GetTestModule(Request $request)
     {
         $id_module = $request->get('id_module');
+        $modulo = CaModulos::find($id_module);
         $instance_questions = new CaPreguntas();
 
         $questions = $instance_questions->GetQuestionsByIdModule($id_module);
 
-        return $this->ExitProgram(202, $this->MessageResponse('', 202), $questions);
+        return $this->ExitProgram(202, $this->MessageResponse('', 202), ['questions' => $questions, 'porcentajeAprobacion' => $modulo->porcentaje_aprueba ?? 75]);
     }
 
     public function GetTestTraining(Request $request)

@@ -15,8 +15,11 @@ use Modules\Reports\Http\Controllers\ReportsController;
 Route::prefix('informes')->group(function () {
     Route::get('/acompañamiento', [ReportsController::class, 'IndexReportAccompaniment'])->name('report_accompaniment_index');
     Route::get('/entrenamiento', [ReportsController::class, 'IndexReportTraining'])->name('report_training_index');
+    Route::get('/entrenamiento-asistidas', [ReportsController::class, 'IndexReportTrainingAsistidas'])->name('report_training_asistidas_index');
     Route::post('/descargar-excel-acompañamiento', [ReportsController::class, 'DownloadExcelAccompanimient'])->name('DownloadExcelAccompaniment');
     Route::post('/descargar-excel-entrenamiento', [ReportsController::class, 'DownloadExcelTraining'])->name('DownloadExcelTraining');
+    Route::post('/descargar-excel-entrenamiento-asistidas', [ReportsController::class, 'DownloadExcelTrainingAsistidas']);
     Route::post('/get-report-accompanimient', [ReportsController::class, 'GetReportAccompaniment'])->name('get_report_accompanimient');
-    Route::post('/get-report-training', [ReportsController::class, 'GetReportTraining'])->name('get_report_training');
+    Route::post('/get-report-training', [ReportsController::class, 'GetReportTraining']);
+    Route::post('/get-report-training-asistidas', [ReportsController::class, 'GetReportTrainingAsistidas']);
 });

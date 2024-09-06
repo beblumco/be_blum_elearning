@@ -5,12 +5,61 @@
     </div>
 
     <div class="container-fluid">
-
         <div class="row menu-cap" v-if="data.view != 2">
+            <!-- Columna para los botones -->
+            <div class="col-md-8 pt-2 pl-1">
+                <div class="d-flex flex-wrap" id="container_bnts">
+                    <button v-if="permisos.includes('ent-ele-mi_plan') && data.user.main_account_id != 2"
+                    id="btn-elearning-menu-plan"
+                    class="btn btn-barra mr-2 mb-2"
+                    :class="{'btn-barra-activo': data.button == 1}"
+                    @click="OnClickChangeView(1)">
+                        Mi plan L&D
+                    </button>
+                    <button v-if="permisos.includes('ent-ele-mis_capacitaciones')" id="btn-elearning-menu-capacitaciones" class="btn btn-barra mr-2 mb-2" :class="{'btn-barra-activo': data.button == 2}" @click="OnClickChangeView(2)">
+                        Mis capacitaciones internas
+                    </button>
+                    <button v-if="permisos.includes('ent-ele-mis_certificados')" id="btn-elearning-menu-certificados" class="btn btn-barra mr-2 mb-2" :class="{'btn-barra-activo': data.button == 3}" @click="OnClickChangeView(3)">
+                        Mis certificados
+                    </button>
+                    <button v-if="permisos.includes('ent-ele-certificados_equipo')" id="btn-elearning-menu-certificados-equipo" class="btn btn-barra mr-2 mb-2" :class="{'btn-barra-activo': data.button == 4}" @click="OnClickChangeView(4)">
+                            Certificados de mi equipo
+                    </button>
+                    <button v-if="permisos.includes('ent-ele-certificados_cliente')" id="btn-elearning-menu-certificados-cliente" class="btn btn-barra mr-2 mb-2" :class="{'btn-barra-activo': data.button == 5}" @click="OnClickChangeView(5)">
+                            Certificados clientes
+                    </button>
+                </div>
+            </div>
+            <!-- Columna para el input de búsqueda -->
+            <div class="col-md-1 pl-1">
+                <button @click.prevent="OnClickRedirectNewTraining"
+                v-if="permisos.includes('ent-ele-crear_curso')"
+                id="btn-elearning-menu-crear-curso"
+                class="btn btn-barra-naranja"
+                style="width: max-content;">
+                    Crear curso
+                </button>
+            </div>
+            <div class="col-md-3 pt-2 pr-1 pl-1">
+                <div class="input-group ml-1" v-if="(data.mode != 3 && data.mode != 4)">
+                    <input type="text" class="form-control" v-model="data.input_search"
+                        :placeholder="data.placeholder_search" @keyup="OnKeyUpSearch()">
+                    <div class="input-group-append">
+                        <span class="input-group-text btn-barra-naranja">
+                            <a href="javascript:void(0)" class="aBuscar">
+                                <i class="flaticon-381-search-2"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="row menu-cap" v-if="data.view != 2"> -->
             <!-- <div class="col-sm-1" v-if="(data.mode == 2 || data.mode == 3)">
                     <i class="fa fa-arrow-left color-danger dev-icon-back" @click="OnClickBack"></i>
                 </div> -->
-            <div id="dv-menu-elearning" class="d-flex">
+            <!-- <div id="dv-menu-elearning" class="d-flex">
                 <div class="btn-menu" v-show="data.user.main_account_id != 2">
                     <button v-if="permisos.includes('ent-ele-mi_plan')" id="btn-elearning-menu-plan" class="btn btn-barra" :class="{'btn-barra-activo': data.button == 1}" @click="OnClickChangeView(1)">Mi plan L&D</button>
                 </div>
@@ -23,17 +72,17 @@
                 <div class="btn-menu">
                     <button v-if="permisos.includes('ent-ele-certificados_equipo')" id="btn-elearning-menu-certificados-equipo" class="btn btn-barra" :class="{'btn-barra-activo': data.button == 4}" @click="OnClickChangeView(4)"> Certificados de mi equipo</button>
                 </div>
-            </div>
+            </div> -->
 
 
-
+<!--
             <div class="div-busqueda">
                 <div class="mr-2">
                     <a href="#" @click.prevent="OnClickRedirectNewTraining" v-if="permisos.includes('ent-ele-crear_curso')">
                         <button id="btn-elearning-menu-crear-curso" class="btn btn-barra-naranja" style="width: max-content;">Crear curso</button>
                     </a>
-                </div>
-                <div class="input-group" v-if="(data.mode != 3 && data.mode != 4)">
+                </div> -->
+                <!-- <div class="input-group" v-if="(data.mode != 3 && data.mode != 4)">
                     <input type="text" class="form-control" v-model="data.input_search"
                         :placeholder="data.placeholder_search" @keyup="OnKeyUpSearch()">
                     <div class="input-group-append">
@@ -45,7 +94,7 @@
                     </div>
                 </div>
                 <h4 v-if="data.mode == 4" class="text-center">Evaluación de competencias</h4>
-            </div>
+            </div> -->
 
 
             <!-- <div class="col-sm-4 d-flex justify-content-end">
@@ -54,7 +103,7 @@
                         <i class="flaticon-381-diploma dev-icon-certificate dev-bg" data-toggle="tooltip" data-placement="top" title="Ver certificados" v-if="data.mode == 1"></i>
                     </div>
                 </div> -->
-        </div>
+        <!-- </div> -->
 
         <div v-show="data.view == 1">
             <!-- </div> -->
@@ -115,7 +164,7 @@
                                                 <th>Módulo</th>
                                                 <th>Capacitación del módulo</th>
                                                 <th>Fecha creación</th>
-                                                <th>Acciones</th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -170,7 +219,7 @@
                                             <tr>
                                                 <th>Nombre</th>
                                                 <th>Fecha de registro</th>
-                                                <th>Acciones</th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -350,9 +399,14 @@
             <PageTrainingCertificatesComponent :search="data.input_search"/>
         </div>
 
-        <!-- Mis certificados -->
+        <!-- Mis certificados equipo-->
         <div v-show="data.view == 4" class="dataInfo">
             <PageTrainingTeamCertificatesComponent :search="data.input_search"/>
+        </div>
+
+        <!-- Mis certificados Clientes comercial-->
+        <div v-show="data.view == 5" class="dataInfo">
+            <PageTrainingClientCertificatesComponent :search="data.input_search"/>
         </div>
     </div>
 </template>
@@ -367,6 +421,7 @@ import initTraining from "./initTraining.vue";
 import ContentModuleComponent from '../CreateTraining/ContentModuleComponent.vue';
 import PageTrainingCertificatesComponent from "../Certificates/PageTrainingCertificatesComponent.vue";
 import PageTrainingTeamCertificatesComponent from "../Certificates/PageTrainingTeamCertificatesComponent.vue";
+import PageTrainingClientCertificatesComponent from "../Certificates/PageTrainingClientCertificatesComponent.vue";
 import { guiaGetAll, saveVisualizacionGuia, CreateTour, guiasEspecificas, skeletonLoader } from "../../../../../../public/assets/js/functions.js";
 
 export default {
@@ -388,7 +443,8 @@ export default {
         initTraining,
         ContentModuleComponent,
         PageTrainingCertificatesComponent,
-        PageTrainingTeamCertificatesComponent
+        PageTrainingTeamCertificatesComponent,
+        PageTrainingClientCertificatesComponent
     },
     async created() {
         await this.dataUser();
@@ -398,6 +454,7 @@ export default {
             await this.GetDataInit();
         }
         this.skeletonLoader('.menu-cap')
+        this.skeletonLoader('.btn-barra')
 
         if (this.idtraining != '') {
             const item = {id: this.idtraining}
@@ -414,6 +471,7 @@ export default {
     },
     async mounted(){
         this.skeletonLoader('.menu-cap')
+        this.skeletonLoader('.btn-barra')
         await this.guiaGetAll();
         this.CreateTour(this.guias);
         this.tour.start();
@@ -993,6 +1051,9 @@ export default {
             }else if (number == 4){
                 this.data.view = 4
                 this.data.placeholder_search = 'Buscar por nombre, id, certificado o fecha'
+            }else if (number == 5){
+                this.data.view = 5
+                this.data.placeholder_search = 'Buscar por nombre, id, certificado o fecha'
             }
         }
     }
@@ -1100,6 +1161,14 @@ export default {
 .form-control
 {
     height: 45px!important;
+}
+
+button{
+    font-size: 14px ;
+}
+
+.input-group-text{
+    margin-bottom: 8px;
 }
 </style>
 

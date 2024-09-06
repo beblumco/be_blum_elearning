@@ -209,7 +209,7 @@
                     <th>Documento</th>
                     <th></th>
                     <th class="align-middle text-center">Intentos</th>
-                    <th>Acciones</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>

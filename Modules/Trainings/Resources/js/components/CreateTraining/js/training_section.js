@@ -4,6 +4,7 @@ const training_section =
     {
         default:
         {
+            main_account_id: null,
             label_file: 'Seleccionar una imagen',
             label_assign: 'Selecciona el sector',
             sector_check: true,
@@ -26,7 +27,7 @@ const training_section =
             }],
             options_type_training:[{
                 id: 1,
-                name: "K-Learning",
+                name: "E-Learning",
             },
             {
                 id: 2,
@@ -164,6 +165,12 @@ const training_section =
 
 const training_events =
 {
+    filterOptions() {
+        if (this.data.training_section.default.main_account_id === 2) {
+            this.data.training_section.default.options_type_training =
+                this.data.training_section.default.options_type_training.filter(option => option.id !== 3);
+        }
+    },
     OnChangeFile(file)
     {
         if(file != undefined)
@@ -431,7 +438,7 @@ const training_events =
         }
         else if(assign == 2) //CENTRO EMPRESA CHECKED
         {
-            this.data.training_section.default.label_assign = 'Selecciona el centro de operación';
+            this.data.training_section.default.label_assign = 'Selecciona el grupo empresa';
             this.data.training_section.default.sector_check = false;
             this.data.training_section.default.centro_emp_check = true;
         }
@@ -570,8 +577,15 @@ const training_events =
         }
     },
     myChangeEventOperationCenter(val) {
+        console.log(val);
+
         if (Array.isArray(val)) {
             this.data.training_section.form_data.id_selected.value = val;
+            if(val.includes('0')){
+                this.data.training_section.form_data.id_selected.value = []
+                const idsArray = this.data.training_section.operations_center.filter(item => item.id !== '0').map(item => item.id);
+                this.data.training_section.form_data.id_selected.value = idsArray
+            }
         }
     },
 }

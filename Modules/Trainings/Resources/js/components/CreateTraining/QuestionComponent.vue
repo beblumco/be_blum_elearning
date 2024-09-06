@@ -7,7 +7,7 @@
                         <li>
                             <div class="timeline-panel mb-2 d-flex">
                                 <div class="col-lg-1 p-0 ml-3">
-                                    <button class="btn btn-danger dev-font-11" @click="OnClickRemoveQuestion">-</button>
+                                    <button class="btn btn-danger dev-font-11 btn-sm" @click="OnClickRemoveQuestion">Remover</button>
                                 </div>
                                 <div class="media-body col-lg-8">
                                     <div class="form-group">
@@ -31,7 +31,7 @@
                                 </div>
 
                                 <div class="col-lg-3 p-0 ml-1">
-                                    <button class="btn btn-info dev-font-11" @click="OnClickRemoveAnswer(answer)">-</button>
+                                    <button class="btn btn-danger dev-font-11 btn-sm" @click="OnClickRemoveAnswer(answer)">Remover</button>
                                 </div>
 
                             </div>

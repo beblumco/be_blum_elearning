@@ -23,6 +23,7 @@ Route::prefix('capacitaciones')->group(function () {
     Route::get('/certificados', [TrainingsController::class, 'TrainingsIndexCertificates'])->name('trainings_index_certificates');
     Route::post('/certificados/all', [TrainingsController::class, 'getAllCertificates'])->name('getAllCertificates');
     Route::post('/certificados-team/all', [TrainingsController::class, 'getAllCertificatesTeam'])->name('getAllCertificatesTeam');
+    Route::post('/certificados-client/all', [TrainingsController::class, 'getAllCertificatesClient'])->name('getAllCertificatesClient');
     Route::get('/download-certificate/{data}', [TrainingsController::class, 'downloadCertificate'])->name('download-certificate');
     Route::get('/download-certificateAll/{data}', [TrainingsController::class, 'downloadCertificateAll'])->name('download-certificate-all');
     Route::get('/download-excel-certificateAll/{data}', [TrainingsController::class, 'downloadExcelCertificateAll'])->name('download-excel-certificate-all');

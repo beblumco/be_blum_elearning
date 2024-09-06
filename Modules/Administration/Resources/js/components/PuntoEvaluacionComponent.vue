@@ -25,6 +25,7 @@
         <tr class="">
           <th>Nombre</th>
           <th>Ciudad</th>
+          <th>Grupo empresa</th>
           <th>Empresa</th>
           <th>Estado</th>
           <th></th>
@@ -35,7 +36,7 @@
           <tr>
             <td>{{ emp.nombre }}</td>
             <td>{{ emp.ciudad }}</td>
-
+            <td>{{ emp.grupo_empresa }}</td>
             <td>{{ emp.empresa }}</td>
             <td>{{ emp.estado }}</td>
 

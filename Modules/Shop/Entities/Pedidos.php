@@ -191,8 +191,8 @@ class Pedidos extends Model
         $pedidos = self::select(
             'pedidos.*',
             'usuarios.nombre_com as usuario_approved',
-            \DB::raw('DATE_FORMAT(pedidos.created_at, "%d de %M %Y") as format_date'),
-            \DB::raw('DATE_FORMAT(pedidos.fecha_despacho, "%d de %M %Y") as format_date_despacho'),
+            \DB::raw('DATE_FORMAT(pedidos.created_at, "%d de %M %Y %h:%i %p") as format_date'),
+            \DB::raw('DATE_FORMAT(pedidos.fecha_despacho, "%d de %M %Y %h:%i %p") as format_date_despacho'),
             'punto_evaluacion.nombre AS PDV',
             \DB::raw("
             (CASE
