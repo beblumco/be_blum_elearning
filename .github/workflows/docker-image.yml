@@ -15,7 +15,7 @@ jobs:
       uses: webfactory/ssh-agent@v0.5.3
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
+        
     - name: Deploy to server
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@ec2-3-130-151-228.us-east-2.compute.amazonaws.com << 'EOF'
@@ -34,3 +34,8 @@ jobs:
           sudo docker-compose -f /var/www/beblum_audeed/docker-compose-savk.yml pull
           sudo docker-compose -f /var/www/beblum_audeed/docker-compose-savk.yml up -d
         EOF
+        
+    - name: Create a tag
+        run:|
+          git tag -a trigger-workflow-deploy-savk -m "Trigger-deploy-savk"
+          git push origin trigger-workflow-deploy-savk
