@@ -39,7 +39,9 @@ jobs:
       run: |
         git config --global user.email "beblumcolombia@outlook.com"
         git config --global user.name "Be Blum"
-
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+          
     - name: Create a tag
       run: |
         git tag -a trigger-workflow-savk -m "Trigger-deploy-savk"
