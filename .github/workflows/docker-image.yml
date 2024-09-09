@@ -19,19 +19,18 @@ jobs:
     - name: Deploy to server
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@ec2-3-130-151-228.us-east-2.compute.amazonaws.com << 'EOF'
-          
           # 1. Actualiza el código dentro del contenedor
           CONTAINER_NAME="beblum_audeed-app_savk_lar-1"
-          docker exec -u root -it $CONTAINER_NAME /bin/sh -c "cd /var/www && git pull origin main && npm run prod"
+          sudo docker exec -u root -it $CONTAINER_NAME /bin/sh -c "cd /var/www && git pull origin main && npm run prod"
           
           # 2. Construye una nueva imagen Docker desde el contenedor actualizado
-          docker commit $CONTAINER_NAME beblumco/be_blum_savk:v1.0
+          sudo docker commit $CONTAINER_NAME beblumco/be_blum_savk:v1.0
           
           # 3. Sube la nueva imagen a Docker Hub
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker push beblumco/be_blum_savk:v1.0
+          echo ${{ secrets.DOCKER_PASSWORD }} | sudo docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          sudo docker push beblumco/be_blum_savk:v1.0
           
           # 4. Actualiza el contenedor con la nueva imagen
-          docker-compose -f /var/www/beblum_audeed/docker-compose-savk.yml pull
-          docker-compose -f /var/www/beblum_audeed/docker-compose-savk.yml up -d
+          sudo docker-compose -f /var/www/beblum_audeed/docker-compose-savk.yml pull
+          sudo docker-compose -f /var/www/beblum_audeed/docker-compose-savk.yml up -d
         EOF
