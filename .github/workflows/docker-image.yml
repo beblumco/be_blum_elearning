@@ -11,12 +11,12 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Set up SSH
+    - name: Setup SSH - Connect to Server by SSH
       uses: webfactory/ssh-agent@v0.5.3
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
         
-    - name: Deploy to server
+    - name: Deploy to server - git pull, generator img and dockerhub up
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@ec2-3-130-151-228.us-east-2.compute.amazonaws.com << 'EOF'
           # 1. Actualiza el código dentro del contenedor
@@ -36,16 +36,10 @@ jobs:
           sudo docker-compose -f /var/www/beblum_audeed/docker-compose-savk.yml pull
           sudo docker-compose -f /var/www/beblum_audeed/docker-compose-savk.yml up -d
           echo 'Finaliza subida de imagen'
-          sudo docker image prune -f
+          sudo docker system prune -a -f
         EOF
         
-    - name: Configure Git user
-      run: |
-        git config --global user.email "beblumcolombia@outlook.com"
-        git config --global user.name "Be Blum"
-          
-    - name: Create a tag
-      run: |
-        git fetch --tags  # Asegúrate de tener las etiquetas más recientes
-        git tag -a trigger-workflow-savk -m "Trigger-deploy-savk" || echo "Tag already exists"
-        git push --force origin trigger-workflow-savk || echo "Failed to push tag"
+    # - name: Configure Git user
+    #   run: |
+    #     git config --global user.email "beblumcolombia@outlook.com"
+    #     git config --global user.name "Be Blum"
