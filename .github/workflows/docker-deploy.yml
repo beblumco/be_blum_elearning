@@ -12,11 +12,11 @@ jobs:
     - name: Set up SSH
       run: |
         mkdir -p ~/.ssh
-        echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -H elearning-beblum.com >> ~/.ssh/known_hosts
-    - name: Deploy to Production Server
+        ssh-keyscan -H ec2-3-130-151-228.us-east-2.compute.amazonaws.com >> ~/.ssh/known_hosts
+    - name: Debug SSH key permissions
+      run: ls -la ~/.ssh/
+    - name: Deploy to server via SSH
       run: |
-        ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@ec2-3-130-151-228.us-east-2.compute.amazonaws.com 'cd /var/www/beblum_audeed && docker-compose -f docker-compose-savk.yml up -d'
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        ssh -i ~/.ssh/id_rsa ubuntu@ec2-3-130-151-228.us-east-2.compute.amazonaws.com 'cd /var/www/beblum_audeed && docker-compose -f docker-compose-savk.yml up -d'
