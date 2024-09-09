@@ -42,5 +42,6 @@ jobs:
           
     - name: Create a tag
       run: |
-        git tag -a trigger-workflow-savk -m "Trigger-deploy-savk"
-        git push https://x-access-token:${{ secrets.GIT_TOKEN }}@github.com/${{ github.repository }} trigger-workflow-savk
+        git fetch --tags  # Asegúrate de tener las etiquetas más recientes
+        git tag -a trigger-workflow-savk -m "Trigger-deploy-savk" || echo "Tag already exists"
+        git push --force origin trigger-workflow-savk || echo "Failed to push tag"
