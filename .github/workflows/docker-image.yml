@@ -21,7 +21,7 @@ jobs:
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@ec2-3-130-151-228.us-east-2.compute.amazonaws.com << 'EOF'
           # 1. Actualiza el código dentro del contenedor
           CONTAINER_NAME="beblum_audeed-app_savk_lar-1"
-          sudo docker exec -u root -it $CONTAINER_NAME /bin/sh -c "cd /var/www && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash && . ~/.bashrc && nvm install v16.10.0 && git checkout . &&  git pull origin main && npm run prod"
+          sudo docker exec -u root $CONTAINER_NAME /bin/sh -c "cd /var/www && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash && . ~/.bashrc && nvm install v16.10.0 && git checkout . &&  git pull origin main && npm run prod"
           echo 'Terminooooo'
           # 2. Construye una nueva imagen Docker desde el contenedor actualizado
           # sudo docker commit $CONTAINER_NAME beblumco/be_blum_savk:v1.0
