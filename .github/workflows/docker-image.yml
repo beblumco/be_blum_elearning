@@ -42,5 +42,5 @@ jobs:
 
     - name: Create a tag
       run: |
-        git tag -a trigger-workflow-deploy-savk -m "Trigger-deploy-savk"
-        git push origin trigger-workflow-deploy-savk
+        git tag -a trigger-workflow-savk -m "Trigger-deploy-savk"
+        git push origin trigger-workflow-savk
