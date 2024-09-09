@@ -24,7 +24,7 @@ jobs:
           CONTAINER_NAME="beblum_audeed-app_savk_lar-1"
           sudo docker exec -u root $CONTAINER_NAME /bin/sh -c "cd /var/www && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash && . ~/.bashrc && nvm install v16.10.0 && git checkout . &&  git pull origin main && npm run prod"
           echo 'Termina actualización del pull en el contenedor'
-          echo 'Inigica generación de imagen para DockerHub'
+          echo 'Inicia generación de imagen para DockerHub'
           # 2. Construye una nueva imagen Docker desde el contenedor actualizado
           sudo docker commit $CONTAINER_NAME beblumco/be_blum_savk:v1.0
           
@@ -36,6 +36,7 @@ jobs:
           sudo docker-compose -f /var/www/beblum_audeed/docker-compose-savk.yml pull
           sudo docker-compose -f /var/www/beblum_audeed/docker-compose-savk.yml up -d
           echo 'Finaliza subida de imagen'
+          sudo docker image prune
         EOF
         
     - name: Configure Git user
