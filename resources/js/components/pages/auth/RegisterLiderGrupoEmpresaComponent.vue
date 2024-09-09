@@ -7,8 +7,8 @@
             <a href="" class="title-login">
               <img
                 class="logo_registrarme"
-                :src="url + '/img/logo_savak.png'"
-                alt="Klaxen SAS"
+                :src="url + '/img/logo_principal_primary.png'"
+                alt="BeBlum"
               />
             </a>
           </div>

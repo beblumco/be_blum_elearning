@@ -9,8 +9,8 @@
 <div class="header dev_header">
     <nav class="nav-header">
         <a href="/dashboard" class="brand-logo">
-            <img class="logo-abbr" src="{{ asset('img/logo_savak.png') }}" alt="">
-            <img class="logo-compact" src="{{ asset('img/logo_savak.png') }}" alt="">
+            <img class="logo-abbr" src="{{ asset('img/logo_principal_primary.png') }}" alt="">
+            <img class="logo-compact" src="{{ asset('img/logo_principal_primary.png') }}" alt="">
             <h1 class="brand-title"><b>Entrenamiento</b></h1>
         </a>
     </nav>

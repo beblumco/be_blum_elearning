@@ -6,7 +6,7 @@
                   <div class="auth-form">
                       <div class="text-center mb-3">
                         <a href="" class="title-login">
-                          <img class="logo_login" :src="`${url}img/logo_klaxen.png`" alt="Klaxen SAS">
+                          <img class="logo_login" :src="`${url}img/logo_principal_primary.png`" alt="BeBlum">
                           SAVK
                         </a>
                       </div>

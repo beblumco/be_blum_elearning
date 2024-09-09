@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'SAVAK'),
+    'name' => env('APP_NAME', 'BeBlum'),
 
 
     'public' => [

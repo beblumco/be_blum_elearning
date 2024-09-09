@@ -2,7 +2,7 @@
     <table id="tituloReporte" style="width: 100%; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif">
         <tr>
             <td><img style="width: 150px; "
-                    src="{{  public_path() . '/img/logo_savak.png'   }}" alt="" srcset=""></td>
+                    src="{{  public_path() . '/img/logo_principal_primary.png'   }}" alt="" srcset=""></td>
             <td style="width: 65%;">
                 <h2 style="font-style: normal;"> EVALUACIÓN - {{ $evaluacion }}</h2>
             </td>

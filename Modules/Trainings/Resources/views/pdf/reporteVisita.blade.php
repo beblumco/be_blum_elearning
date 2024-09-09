@@ -1,6 +1,6 @@
 @php
     if($data->img_avatar == null){
-        $avatar = public_path().'/img/logo_savak.png';
+        $avatar = public_path().'/img/logo_principal_primary.png';
     }else{
         $avatar = public_path().'/storage/'.$data->img_avatar;
     }

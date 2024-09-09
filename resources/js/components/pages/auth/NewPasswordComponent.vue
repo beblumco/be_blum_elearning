@@ -6,7 +6,7 @@
                   <div class="auth-form">
                       <div class="text-center mb-3">
                         <a href="" class="title-login">
-                            <img class="logo_login" :src="url + 'img/logoSavakWhite.png'" alt="Klaxen SAS">
+                            <img class="logo_login" :src="url + 'img/logo_principal.png'" alt="BeBlum">
                         </a>
                       </div>
                       <h4 class="text-center mb-4 text-white subtitulo" style="font-size: 19px;">Cambiar contraseña</h4>

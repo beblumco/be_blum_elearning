@@ -141,7 +141,7 @@
                             <a href="https://klaxen.co/savk/" target="_blank"
                                     style="display: inline-flex; text-decoration: none; max-height: 180px;
                                     align-items: center;">
-                                    <img src="https://klaxen.co/savk/img/logo_savak.png" alt="Logo"
+                                    <img src="https://klaxen.co/savk/img/logo_principal_primary.png" alt="Logo"
                                         border="0" width="120"
                                         style="display: block; width: 270px; padding: 2px;">
                                 </a>

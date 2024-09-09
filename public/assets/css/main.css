@@ -3,6 +3,58 @@
   --color-primary: #145c54;
 }
 
+.header-right .header-profile .dropdown-menu a:hover, .header-right .header-profile .dropdown-menu a:focus, .header-right .header-profile .dropdown-menu a.active
+{
+  color: var(--color-primary);
+}
+
+.btn-barra-naranja 
+{
+  background-color: var(--color-primary)!important;
+  border-color: var(--color-primary)!important;
+}
+
+.badge-warning 
+{
+  background-color: rgba(22, 109, 84, 0.05) !important;
+  color: var(--color-primary) !important;
+}
+
+.btn-barra-activo 
+{
+  background-color: var(--color-primary)!important;
+  border-color: var(--color-primary) !important;
+}
+
+.btn-barra:hover 
+{
+  background-color: var(--color-primary)!important;
+  border-color: var(--color-primary)!important;
+}
+
+.porcentaje
+{
+  background-color: var(--color-primary)!important;
+}
+
+.centrado 
+{
+  color: var(--color-primary)!important;
+}
+
+.dropdown-menu .dropdown-item:hover, .dropdown-menu .dropdown-item:focus, .dropdown-menu .dropdown-item:active, .dropdown-menu .dropdown-item.active {
+  color: var(--color-primary)!important;
+  background: #F4F5F9;
+}
+
+.dropdown-menu .dropdown-item.active, .dropdown-menu .dropdown-item:active {
+  color: var(--color-primary) !important;
+}
+
+.accordion-primary .accordion__header 
+{
+  box-shadow: 0 15px 20px 0 rgba(9, 122, 78, 0.15)!important;
+}
 
 .authincation
 {
@@ -175,13 +227,13 @@ input[type="checkbox"]:checked:after
 
    .menu-toggle .deznav .metismenu>li.mm-active>a,
    .menu-toggle .deznav .metismenu>li:hover>a {
-    background: #012f54 !important;
+    background: var(--color-primary) !important;
   }
 
   .deznav .metismenu ul a:hover,
   .deznav .metismenu ul a:focus,
   .deznav .metismenu ul a.mm-active {
-    color: #012f54 !important;
+    color: var(--color-primary) !important;
   }
 
   .dev_container_menu {
@@ -242,8 +294,8 @@ input[type="checkbox"]:checked:after
   }
 
   .btn-primary {
-    background-color: #002F54 !important;
-    border-color: #002F54 !important;
+    background-color: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
     color: white !important;
   }
 
@@ -260,14 +312,14 @@ input[type="checkbox"]:checked:after
   }
 
   .badge-success {
-    background-color: #002F54 !important;
-    border-color: #002F54 !important;
+    background-color: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
     color: white !important;
   }
 
   .btn-danger:hover,
   .badge-primary:hover {
-    background-color: #ff8000e0 !important;
+    background-color: var(--color-primary) !important;
   }
 
   .form-control:focus {
@@ -277,27 +329,27 @@ input[type="checkbox"]:checked:after
   .btn-barrat {
     background-color: #e6f0ff !important;
     border-color: #e6f0ff !important;
-    color: #002f54 !important;
+    color: var(--color-primary) !important;
     box-shadow: 0 0.46875rem 2.1875rem rgba(4, 9, 20, 0.03), 0 0.9375rem 1.40625rem rgba(4, 9, 20, 0.03), 0 0.25rem 0.53125rem rgba(4, 9, 20, 0.05), 0 0.125rem 0.1875rem rgba(4, 9, 20, 0.03) !important;
   }
 
   .btn-barrat:hover {
-    background-color: #002f54;
-    border-color: #002f54;
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
     color: #e6f0ff;
     box-shadow: 0 0.46875rem 2.1875rem rgba(4, 9, 20, 0.03), 0 0.9375rem 1.40625rem rgba(4, 9, 20, 0.03), 0 0.25rem 0.53125rem rgba(4, 9, 20, 0.05), 0 0.125rem 0.1875rem rgba(4, 9, 20, 0.03) !important;
 
   }
 
   .btn-barrat-activo {
-    background-color: #002f54;
-    border-color: #002f54;
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
     color: #e6f0ff;
     box-shadow: none !important;
   }
 
   .btn-barrat a {
-    color: #002f54;
+    color: var(--color-primary);
   }
 
   .btn-barrat:hover a {
@@ -305,7 +357,7 @@ input[type="checkbox"]:checked:after
   }
 
   .text-savk {
-    color: #002f54 !important
+    color: var(--color-primary) !important
   }
 
   .menu-toggle .nav-header {
@@ -315,7 +367,7 @@ input[type="checkbox"]:checked:after
   .dev_badge_primary {
     background-color: #e6f0ff !important;
     border-color: #e6f0ff !important;
-    color: #002f54 !important;
+    color: var(--color-primary) !important;
     box-shadow: 0 0.46875rem 2.1875rem rgba(4, 9, 20, 0.03), 0 0.9375rem 1.40625rem rgba(4, 9, 20, 0.03), 0 0.25rem 0.53125rem rgba(4, 9, 20, 0.05), 0 0.125rem 0.1875rem rgba(4, 9, 20, 0.03) !important;
     font-size: 0.9rem !important;
     font-weight: normal !important;
@@ -352,8 +404,8 @@ input[type="checkbox"]:checked:after
   }
 
   .accordion-primary .accordion__header {
-    background: #002F54 !important;
-    border-color: #002F54 !important;
+    background: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
   }
 
   .widget-stat .media>span {
@@ -370,7 +422,7 @@ input[type="checkbox"]:checked:after
   }
 
   .text-color-savk {
-    color: #002F54;
+    color: var(--color-primary);
   }
 
   .modal-open .modal {

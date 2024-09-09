@@ -356,7 +356,7 @@
             confirmButtonText: "Aceptar",
             cancelButtonText: "No",
             confirmButtonColor: '#1f3352',
-            cancelButtonColor: '#ff7f00',
+            cancelButtonColor: '#145c54',
             allowOutsideClick: false
         });
           return;
@@ -385,7 +385,7 @@
                       confirmButtonText: "Aceptar",
                       cancelButtonText: "No",
                       confirmButtonColor: '#1f3352',
-                      cancelButtonColor: '#ff7f00',
+                      cancelButtonColor: '#145c54',
                       allowOutsideClick: false
                   });
               break;
@@ -487,7 +487,7 @@
                       confirmButtonText: "Aceptar",
                       cancelButtonText: "No",
                       confirmButtonColor: '#1f3352',
-                      cancelButtonColor: '#ff7f00',
+                      cancelButtonColor: '#145c54',
                       allowOutsideClick: false
                   });
               this.getDataAll();
@@ -523,8 +523,8 @@
 
   <style scoped>
     .badge-warning {
-        background-color: rgba(254, 99, 78, 0.05) !important;
-        color: #ff7f00 !important;
+        background-color: rgba(22, 109, 84, 0.05) !important;
+        color: #145c54 !important;
         font-size: 0.9rem !important;
     }
   </style>

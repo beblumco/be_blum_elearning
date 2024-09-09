@@ -119,7 +119,7 @@
                                 <span style='text-decoration:none'>
                                     <img border=0 width=124 height=70 style='width:2.2916in;'
                                         id="Imagen_x0020_6"
-                                        src="https://klaxen.co/savk/img/logo_savak.png">
+                                        src="{{ENV("APP_URL").'/savk/img/logo_principal_primary.png'}}">
                                 </span>
                             </a>
                         </span>

@@ -57,7 +57,7 @@
 
         <div class="nav-header">
             <a href="{{ route('login_index') }}" class="brand-logo">
-                <img class="logo-abbr" src="{{ asset('img/logo_savak.png') }}" alt="">
+                <img class="logo-abbr" src="{{ asset('img/logo_principal_primary.png') }}" alt="">
                 <img class="logo-compact" src="{{ asset('assets/images/logo-text.png') }}" alt="">
                 <h1 class="brand-title"><b>Savk</b></h1>
             </a>

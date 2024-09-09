@@ -14,7 +14,7 @@
     $designedBy = $data->designed_by != null ? "Capacitación diseñada por $data->designed_by" : '';
 
     if(empty($Img)){
-        $Img = "/img/logo_savak.png";
+        $Img = "/img/logo_principal_primary.png";
     }else{
         $Img = "/storage/$Img";
     }

@@ -118,7 +118,7 @@
                     </div>
 
                     <div class="col-lg-12">
-                        <h6 class="text-white">Ingrese su pregunta al experto KLAXEN</h6>
+                        <h6 class="text-white">Ingrese su pregunta al experto BeBlum</h6>
                     </div>
 
                     <div class="col-lg-12">
@@ -300,7 +300,7 @@ export default {
                             showCancelButton: true,
                             showCloseButton: true,
                             confirmButtonColor: '#1f3352',
-                            cancelButtonColor: '#ff7f00',
+                            cancelButtonColor: '#145c54',
                             allowOutsideClick: false
                         }).then((result)=>{
                             if (result.value) {
@@ -369,7 +369,7 @@ export default {
                             showCancelButton: true,
                             showCloseButton: true,
                             confirmButtonColor: '#1f3352',
-                            cancelButtonColor: '#ff7f00',
+                            cancelButtonColor: '#145c54',
                             allowOutsideClick: false
                         }).then((result)=>{
                             if (result.value) {
@@ -568,7 +568,7 @@ export default {
                     confirmButtonText: "Si",
                     cancelButtonText: "No",
                     confirmButtonColor: '#1f3352',
-                    cancelButtonColor: '#ff7f00',
+                    cancelButtonColor: '#145c54',
                     allowOutsideClick: false
                 })
 
@@ -645,7 +645,7 @@ export default {
                             confirmButtonText: "Copiar link",
                             cancelButtonText: "Cerrar",
                             confirmButtonColor: '#1f3352',
-                            cancelButtonColor: '#ff7f00',
+                            cancelButtonColor: '#145c54',
                             allowOutsideClick: false
                         });
 
@@ -708,7 +708,7 @@ export default {
                             showCancelButton: true,
                             showConfirmButton: false,
                             cancelButtonText: "Cerrar",
-                            cancelButtonColor: '#ff7f00',
+                            cancelButtonColor: '#145c54',
                             allowOutsideClick: false
                         });
                         this.preguntaCliente.pregunta.value = ''
@@ -736,30 +736,30 @@ a {
 }
 
 .bg_dark {
-    background-color: #011627;
+    background-color: #052a26;
     padding: 10px;
     font-size: 14px;
 }
 
 .activo {
-    background-image: linear-gradient(to right, transparent 0%, #ff7f00 40%);
+    background-image: linear-gradient(to right, transparent 0%, #145c54 40%);
     background-position: bottom center;
     background-size: 100% 1px;
     background-repeat: no-repeat;
 }
 
 .activo>a {
-    color: #ff7f00 !important;
+    color: #145c54 !important;
     font-weight: bold;
 }
 
 .moduloActivo>div>div>a{
-    color: #ff7f00 !important;
+    color: #145c54 !important;
     font-weight: bold;
 }
 
 .iconoActivo{
-    color: #ff7f00 !important;
+    color: #145c54 !important;
 }
 
 .div-con-punto {
@@ -785,7 +785,7 @@ a {
 }
 
 .div-con-punto-activo {
-    border-left: 1px solid #ff7f00;
+    border-left: 1px solid #145c54;
     position: relative;
     padding-left: 25px;
     margin-left: 10px;
@@ -795,7 +795,7 @@ a {
 
 .punto-activo::after{
     background-color: white !important;
-    box-shadow: 0 0 0 4px #ff7f00;
+    box-shadow: 0 0 0 4px #145c54;
 }
 
 .div-con-punto-activo::after {
@@ -807,8 +807,8 @@ a {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background-color: #ff7f00;
-    box-shadow: 0 0 0 4px #ff7f00;
+    background-color: #145c54;
+    box-shadow: 0 0 0 4px #145c54;
 }
 
 
@@ -818,7 +818,7 @@ a {
 }
 
 .btn-evaluacion-activo{
-    background-color: #ff7f00 !important;
+    background-color: #145c54 !important;
     color: white !important;
 }
 
@@ -830,7 +830,7 @@ a {
 }
 
 .btn-evaluacion-mod-activo{
-    background-color: #ff7f00 !important;
+    background-color: #145c54 !important;
     color: white !important;
     padding: 2px 1rem;
     margin-bottom: 12px;
@@ -891,7 +891,7 @@ a > p{
     display: inline-block;
     width: 20px;
     height: 20px;
-    background-color: #ff7f00;
+    background-color: #145c54;
     color: white !important;
 }
 

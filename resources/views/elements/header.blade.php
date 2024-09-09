@@ -808,7 +808,7 @@
                         ">
                             <div class="row">
                                 <div class="col-lg-12 d-flex align-items-center justify-content-center mb-2">
-                                    <img src="{{ env('URL') }}img/new_logo_KL.png"
+                                    <img src="{{ env('URL') }}img/logo_principal_primary.png"
                                         style="
                                             height: 90px;
                                     ">
@@ -829,7 +829,7 @@
                         ">
                             <div class="row">
                                 <div class="col-lg-12 d-flex align-items-center justify-content-center mb-2">
-                                    <img id="empresaAvatar" src="{{ env('URL') }}img/logo_savak.png"
+                                    <img id="empresaAvatar" src="{{ env('URL') }}img/logo_principal_primary.png"
                                         style="width: 160px;">
                                 </div>
                                 <div class="col-lg-12 d-flex align-items-center justify-content-center" style="color: #002f54; font-weight: bold;">

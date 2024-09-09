@@ -95,7 +95,7 @@
                 <a href="{{ route('login_index') }}" class="brand-logo">
                     <img
                     class="logo-abbr"
-                    src="{{ asset('img/logo_savak.png') }}"
+                    src="{{ asset('img/logo_principal_primary.png') }}"
                     style="{{ empty($logoCliente) ? 'max-width: 180px !important; max-height: 70px;' :'' }}"
                     >
                     <img class="logo-compact" src="{{ asset('assets/images/logo-text.png') }}" alt="">

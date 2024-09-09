@@ -364,7 +364,7 @@ export default {
     position: absolute;
     bottom: 0px;
     left: 0px;
-    color: #002f54 !important;
+    color: #145c54 !important;
     font-weight: 600;
     background-color: rgb(230 240 255 / 92%);
     padding: 5px 10px 5px 10px;
@@ -399,7 +399,7 @@ export default {
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: #002f54 !important;
+    color: #145c54 !important;
     font-weight: bolder;
     font-size: 15px;
 }
@@ -413,12 +413,12 @@ export default {
 
 .opciones{
     background-color:  rgb(230 240 255 / 92%);
-    color: #002f54;
+    color: #145c54;
     box-shadow: none;
 }
 
 .opciones:hover{
-    background-color: #002f54 ;
+    background-color: #145c54 ;
     color: #E6F0FF;
     box-shadow: none;
     border: solid 2px rgb(230 240 255 / 92%);
@@ -426,25 +426,25 @@ export default {
 
 .btn-savak{
     background-color: transparent;
-    border-color: #002f54;
-    color: #002f54;
+    border-color: #145c54;
+    color: #145c54;
 }
 
 .btn-savak:hover{
-    background-color: #002f54;
-    border-color: #002f54;
+    background-color: #145c54;
+    border-color: #145c54;
     color: white;
 }
 
 .btn-savak-2{
-    background-color: #002f54;
-    border-color: #002f54;
+    background-color: #145c54;
+    border-color: #145c54;
     color: white;
 }
 
 .btn-savak-2:hover{
-    background-color: #003054e8;
-    border-color: #002f54;
+    background-color: #073d36;
+    border-color: #145c54;
     color: white;
 }
 .imagenCard{
