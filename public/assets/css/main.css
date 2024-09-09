@@ -1,9 +1,26 @@
-  .text-primary {
+:root
+{
+  --color-primary: #145c54;
+}
+
+
+.authincation
+{
+  background-color: var(--color-primary)
+}
+
+input[type="checkbox"]:checked:after
+{
+  background: var(--color-primary)!important
+}
+
+  .text-primary 
+  {
     color: #2420d9 !important;
   }
 
   .dev-select-primary-color {
-    background: #FE634E;
+    background: var(--color-primary);
     color: white;
     font-weight: bold;
     cursor: pointer;
@@ -46,9 +63,9 @@
   .dev-tab.active:hover {
     color: #495057 !important;
     background-color: #fff !important;
-    border-color: #FE634E !important;
+    border-color: var(--color-primary) !important;
     border-radius: 0 !important;
-    color: #FE634E !important;
+    color: var(--color-primary) !important;
     border-width: 0 0px 3px 0 !important;
   }
 
@@ -57,7 +74,7 @@
   }
 
   .custom-file-label:after {
-    background: #FE634E !important;
+    background: var(--color-primary) !important;
   }
 
   .form-control {
@@ -85,7 +102,7 @@
   }
 
   .text-naranja {
-    color: rgb(255, 127, 0) !important;
+    color: var(--color-primary) !important;
   }
 
   /* estilo de boton wsp */
@@ -148,7 +165,7 @@
   }
 
   .toast-warning {
-    background-color: #ff7f00 !important;
+    background-color: var(--color-primary) !important;
   }
 
   .swal2-popup #swal2-content {
@@ -237,8 +254,8 @@
 
   .btn-danger,
   .badge-primary {
-    background-color: #ff7f00 !important;
-    border-color: #ff7f00 !important;
+    background-color: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
     color: white !important;
   }
 
@@ -254,7 +271,7 @@
   }
 
   .form-control:focus {
-    border-color: #ff7f00 !important;
+    border-color: var(--color-primary) !important;
   }
 
   .btn-barrat {
@@ -305,8 +322,8 @@
   }
 
   .btn-barra-naranja {
-    Background-color: #ff7f00;
-    Border-color: #ff7f00;
+    Background-color: var(--color-primary);
+    Border-color: var(--color-primary);
     Color: white;
     box-shadow: 0 0.46875rem 2.1875rem rgba(4, 9, 20, 0.03), 0 0.9375rem 1.40625rem rgba(4, 9, 20, 0.03), 0 0.25rem 0.53125rem rgba(4, 9, 20, 0.05), 0 0.125rem 0.1875rem rgba(4, 9, 20, 0.03) !important;
     padding: 0.6rem 0.8rem !important;
@@ -326,12 +343,12 @@
   .custom-tab-1 .nav-link:focus,
   .custom-tab-1 .nav-link:hover,
   .custom-tab-1 .nav-link.active {
-    border-color: #ff7f00 !important;
-    color: #ff7f00 !important;
+    border-color: var(--color-primary) !important;
+    color: var(--color-primary) !important;
   }
 
   .custom-tab-1 .nav-link i {
-    color: #ff7f00 !important;
+    color: var(--color-primary) !important;
   }
 
   .accordion-primary .accordion__header {

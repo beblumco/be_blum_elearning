@@ -177,7 +177,7 @@
               <button
                 type="submit"
                 class="btn text-light btn-block dev_button_login"
-                style="background-color: #1e3352"
+                style="background-color: #145c54"
               >
                 Registrarme
               </button>
@@ -347,7 +347,7 @@ export default {
 }
 
 .text-white {
-  color: #1e3352 !important;
+  color: #145c54 !important;
 }
 
 .noDiligenciado {

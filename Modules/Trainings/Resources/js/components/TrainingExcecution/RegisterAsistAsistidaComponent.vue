@@ -844,7 +844,7 @@ export default {
 
 <style scoped>
 .authincation-content {
-    background-color: #1e3352;
+    background-color: #145c54;
     font-family: 'Roboto', sans-serif;
 }
 

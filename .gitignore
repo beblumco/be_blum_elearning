@@ -17,3 +17,7 @@ yarn-error.log
 versions/*
 composer.lock
 package-lock.json
+public/js/app.js.LICENSE.txt
+public/mix-manifest.json
+public/css/app.css
+public/js/app.css

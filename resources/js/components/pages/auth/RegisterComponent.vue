@@ -242,7 +242,7 @@ export default {
 
 <style>
 .authincation-content {
-    background-color: #1e3352;
+    background-color: #fff;
     font-family: 'Roboto', sans-serif;
 }
 
