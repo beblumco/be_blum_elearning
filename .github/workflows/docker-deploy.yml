@@ -9,6 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+    - name: Set up SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H elearning-beblum.com >> ~/.ssh/known_hosts
     - name: Deploy to Production Server
       run: |
         ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@ec2-3-130-151-228.us-east-2.compute.amazonaws.com 'cd /var/www/beblum_audeed && docker-compose -f docker-compose-savk.yml up -d'
