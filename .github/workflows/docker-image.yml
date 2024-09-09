@@ -35,6 +35,11 @@ jobs:
           sudo docker-compose -f /var/www/beblum_audeed/docker-compose-savk.yml up -d
         EOF
         
+    - name: Configure Git user
+      run: |
+        git config --global user.email "beblumcolombia@outlook.com"
+        git config --global user.name "Be Blum"
+
     - name: Create a tag
       run: |
         git tag -a trigger-workflow-deploy-savk -m "Trigger-deploy-savk"
