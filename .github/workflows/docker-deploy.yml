@@ -2,7 +2,8 @@ name: Deploy Docker Compose
 
 on:
   push:
-    branches: [ "main" ]
+    tags:
+      - 'trigger-workflow-savk'
 
 jobs:
   build:
