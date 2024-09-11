@@ -2088,9 +2088,9 @@ class TrainingsController extends Controller
 
         //KLAXEN TRAE ACTUALMENTE TODO
         if (Auth::user()->id == 4301) {
-            $data = $data->paginate(10);
+            $data = $data->where('us.main_account_id', $this->main_account_id)->paginate(10);
         }else if (Auth::user()->savk_principal == 1) {
-            $data = $data->where('us.main_account_id', $this->main_account_id)->join('punto_evaluacion as pe', 'pe.id', '=', 'ci.id_cliente')
+            $data = $data->join('punto_evaluacion as pe', 'pe.id', '=', 'ci.id_cliente')
                 ->where('pe.main_account_id', $this->main_account_id)
                 ->paginate(10);
         }
