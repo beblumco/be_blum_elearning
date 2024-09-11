@@ -32,8 +32,8 @@ return [
                 'assets/vendor/select2/css/select2.min.css',
                 'assets/vendor/sweetalert2/dist/sweetalert2.min.css',
                 'assets/vendor/toastr/css/toastr.min.css',
-                'assets/css/main.css?v='.$time,
-                'assets/css/style.css'
+                'assets/css/style.css',
+                'assets/css/main.css?v='.$time
             ],
             'js' => [
                 'assets/vendor/global/global.min.js',

@@ -347,42 +347,42 @@
                     <div class="modal-body p-2 ">
                         <div v-for="data_test in data.modal_view_test.data_tests" :key="data_test.id" class="col-lg-12 dev-over-flow dev_container_questions">
                             <div class="card border-0 pb-0" style="background: #F7F7F7">
-            <div class="card-body">
-                <div id="DZ_W_Todo4" class="">
-                    <ul class="timeline mb-3">
-                        <li>
-                            <div class="timeline-panel mb-2 d-flex">
-                                <div class="media-body col-lg-8">
-                                    <div class="form-group">
-                                        <input disabled type="text" class="form-control" v-model="data_test.pregunta" :placeholder="`Pregunta # ${data_test.orden}...`" />
+                                <div class="card-body">
+                                    <div id="DZ_W_Todo4" class="">
+                                        <ul class="timeline mb-3">
+                                            <li>
+                                                <div class="timeline-panel mb-2 d-flex">
+                                                    <div class="media-body col-lg-8">
+                                                        <div class="form-group">
+                                                            <input disabled type="text" class="form-control" v-model="data_test.pregunta" :placeholder="`Pregunta # ${data_test.orden}...`" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                    <div class="card border-0 pb-0" style="background: #FAFAFA">
+                                                        <div class="card-body">
+                                                            <div class="col-lg-3 mb-3 p-0 ml-1">
+                                                    </div>
+                                                <div v-for="(answer,key) in data_test.respuestas" :key="key" class="d-flex mb-2 col-lg-12 align-items-center ml-5">
+
+                                                    <div class="align-items-center col-lg-8 p-0">
+                                                        <input disabled type="text" class="form-control" :placeholder="`Opción respuesta`" v-model="answer.respuesta" />
+                                                    </div>
+
+                                                    <div class="col-lg-3 p-0 ml-1">
+                                                    </div>
+
+                                                </div>
+                                                        </div>
+                                                    </div>
+                                            </li>
+
+
+                                        </ul>
+
                                     </div>
+
                                 </div>
                             </div>
-                                <div class="card border-0 pb-0" style="background: #FAFAFA">
-                                    <div class="card-body">
-                                         <div class="col-lg-3 mb-3 p-0 ml-1">
-                                </div>
-                             <div v-for="(answer,key) in data_test.respuestas" :key="key" class="d-flex mb-2 col-lg-12 align-items-center ml-5">
-
-                                <div class="align-items-center col-lg-8 p-0">
-                                    <input disabled type="text" class="form-control" :placeholder="`Opción respuesta`" v-model="answer.respuesta" />
-                                </div>
-
-                                <div class="col-lg-3 p-0 ml-1">
-                                </div>
-
-                            </div>
-                                    </div>
-                                </div>
-                        </li>
-
-
-                    </ul>
-
-                </div>
-
-            </div>
-        </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -961,6 +961,7 @@ export default {
 
                 data_form.append('id_module', id);
 
+                console.log("epa")
                 loading();
                 let rs = await fetch(`${this.url}capacitaciones/administracion/get_test_module`, { method: "POST", body: data_form, headers: {
                     'X-CSRF-TOKEN': this.token
@@ -975,14 +976,14 @@ export default {
                     case 202:
                         if(data.length != 0)
                         {
-                            Array.from(data).map(pr => {
+                            Array.from(data.questions).map(pr => {
                                 pr.respuestas.map(rta => {
                                     rta.checked = (rta.checked == 0 ? false : true);
                                 });
                             });
+                            this.data.modal_view_test.data_tests = data.questions;
                         }
-                        this.data.modal_view_test.data_tests = data;
-
+                        
                         break;
 
                     case 400:
