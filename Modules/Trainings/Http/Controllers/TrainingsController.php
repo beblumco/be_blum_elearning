@@ -400,7 +400,7 @@ class TrainingsController extends Controller
             'ca_capacitaciones.*',
             'usuarios.nombre_com as nombre_usuario',
             'usuarios.cargo as cargo_usuario',
-            \DB::raw('IF(ca_capacitaciones.imagen IS NULL, "' . asset('assets/images/placeholder_capacitaciones.png') . '", CONCAT("' . $url . 'storage/", ca_capacitaciones.imagen)) AS IMAGE_PATH'),
+            \DB::raw('IF(ca_capacitaciones.imagen IS NULL, "' . asset('assets/images/placeholder_capacitaciones.jpg') . '", CONCAT("' . $url . 'storage/", ca_capacitaciones.imagen)) AS IMAGE_PATH'),
             \DB::raw("(SELECT COUNT(*) FROM ca_evaluacion_iniciada ceis WHERE ceis.id_capacitacion = ca_capacitaciones.id AND ceis.id_usuario = $currentIdUser) AS QUANTITY_MODULE_DONE"),
             \DB::raw("(SELECT COUNT(*) FROM ca_modulos cms WHERE cms.id_capacitacion = ca_capacitaciones.id) AS QUANTITY_TOTAL_TRAININGS"),
 
@@ -494,7 +494,7 @@ class TrainingsController extends Controller
         // GRUPO EMPRESA
         $training_gp = CaCapacitaciones::select(
             'ca_capacitaciones.*',
-            \DB::raw('IF(ca_capacitaciones.imagen IS NULL, "' . asset('assets/images/placeholder_capacitaciones.png') . '", CONCAT("' . $url . 'storage/", ca_capacitaciones.imagen)) AS IMAGE_PATH'),
+            \DB::raw('IF(ca_capacitaciones.imagen IS NULL, "' . asset('assets/images/placeholder_capacitaciones.jpg') . '", CONCAT("' . $url . 'storage/", ca_capacitaciones.imagen)) AS IMAGE_PATH'),
             \DB::raw("(SELECT COUNT(*) FROM ca_evaluacion_iniciada ceis WHERE ceis.id_capacitacion = ca_capacitaciones.id AND ceis.id_usuario = $currentIdUser) AS QUANTITY_MODULE_DONE"),
             \DB::raw("(SELECT COUNT(*) FROM ca_modulos cms WHERE cms.id_capacitacion = ca_capacitaciones.id) AS QUANTITY_TOTAL_TRAININGS"),
 
@@ -521,7 +521,7 @@ class TrainingsController extends Controller
         //SECTORES
         $trainings_sector = CaCapacitaciones::select(
             'ca_capacitaciones.*',
-            \DB::raw('IF(ca_capacitaciones.imagen IS NULL, "' . asset('assets/images/placeholder_capacitaciones.png') . '", CONCAT("' . $url . 'storage/", ca_capacitaciones.imagen)) AS IMAGE_PATH'),
+            \DB::raw('IF(ca_capacitaciones.imagen IS NULL, "' . asset('assets/images/placeholder_capacitaciones.jpg') . '", CONCAT("' . $url . 'storage/", ca_capacitaciones.imagen)) AS IMAGE_PATH'),
             \DB::raw("(SELECT COUNT(*) FROM ca_evaluacion_iniciada ceis WHERE ceis.id_capacitacion = ca_capacitaciones.id AND ceis.id_usuario = $currentIdUser) AS QUANTITY_MODULE_DONE"),
             \DB::raw("(SELECT COUNT(*) FROM ca_modulos cms WHERE cms.id_capacitacion = ca_capacitaciones.id) AS QUANTITY_TOTAL_TRAININGS"),
 

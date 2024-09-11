@@ -356,7 +356,7 @@ export default {
                             confirmButtonText: "Copiar link",
                             cancelButtonText: "Cerrar",
                             confirmButtonColor: '#1f3352',
-                            cancelButtonColor: '#ff7f00',
+                            cancelButtonColor: '#145c54',
                             allowOutsideClick: false
                         });
 
@@ -476,9 +476,9 @@ export default {
 }
 
 .pagination .page-item .page-link:hover{
-    background-color: #ff7f00;
+    background-color: #145c54;
     color: white;
-    border-color: #ff7f00;
+    border-color: #145c54;
     box-shadow: 0 10px 20px 0px rgba(254, 99, 78, 0.05);
 }
 

@@ -38,7 +38,7 @@
         }
 
         .badge-primary {
-            background-color: #ff7f00;
+            background-color: #145c54;
         }
 
         .badge-secondary {
@@ -46,7 +46,7 @@
         }
 
         .pagination .page-item .page-link:hover {
-            background-color: #ff7f00;
+            background-color: #145c54;
         }
     </style>
 @endsection
