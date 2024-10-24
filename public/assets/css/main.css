@@ -8,25 +8,25 @@
   color: var(--color-primary);
 }
 
-.btn-barra-naranja 
+.btn-barra-naranja
 {
   background-color: var(--color-primary)!important;
   border-color: var(--color-primary)!important;
 }
 
-.badge-warning 
+.badge-warning
 {
   background-color: rgba(22, 109, 84, 0.05) !important;
   color: var(--color-primary) !important;
 }
 
-.btn-barra-activo 
+.btn-barra-activo
 {
   background-color: var(--color-primary)!important;
   border-color: var(--color-primary) !important;
 }
 
-.btn-barra:hover 
+.btn-barra:hover
 {
   background-color: var(--color-primary)!important;
   border-color: var(--color-primary)!important;
@@ -37,7 +37,7 @@
   background-color: var(--color-primary)!important;
 }
 
-.centrado 
+.centrado
 {
   color: var(--color-primary)!important;
 }
@@ -57,12 +57,12 @@
   background-color: var(--color-primary)!important;
 }
 
-.btn-primary:focus, .btn-primary.focus 
+.btn-primary:focus, .btn-primary.focus
 {
   box-shadow: 0 0 0 0.2rem rgba(35, 150, 12, 0.5);
 }
 
-.accordion-primary .accordion__header 
+.accordion-primary .accordion__header
 {
   box-shadow: 0 15px 20px 0 rgba(9, 122, 78, 0.15)!important;
 }
@@ -77,7 +77,7 @@ input[type="checkbox"]:checked:after
   background: var(--color-primary)!important
 }
 
-  .text-primary 
+  .text-primary
   {
     color: #2420d9 !important;
   }
@@ -514,3 +514,7 @@ input[type="checkbox"]:checked:after
   }
 
   /* END SKELETON */
+
+  .sk-three-bounce .sk-child {
+      background-color: var(--color-primary);
+  }
