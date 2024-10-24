@@ -2,43 +2,43 @@ name: Deploy pull project
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Setup SSH - Connect to Server by SSH
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-        
-    - name: Deploy to server - git pull, generator img and dockerhub up
-      run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@ec2-3-130-151-228.us-east-2.compute.amazonaws.com << 'EOF'
-          # 1. Actualiza el código dentro del contenedor
-          echo 'Inicia actualización del pull en el contenedor'
-          CONTAINER_NAME="beblum_audeed-app_savk_lar-1"
-          sudo docker exec -u root $CONTAINER_NAME /bin/sh -c "cd /var/www && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash && . ~/.bashrc && nvm install v16.10.0 && git checkout . &&  git pull origin main && npm run prod"
-          echo 'Termina actualización del pull en el contenedor'
-          echo 'Inicia generación de imagen para DockerHub'
-          # 2. Construye una nueva imagen Docker desde el contenedor actualizado
-          sudo docker commit $CONTAINER_NAME beblumco/be_blum_savk:v1.0
-          
-          # 3. Sube la nueva imagen a Docker Hub
-          echo ${{ secrets.DOCKER_PASSWORD }} | sudo docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-          sudo docker push beblumco/be_blum_savk:v1.0
-          
-          # 4. Actualiza el contenedor con la nueva imagen
-          sudo docker-compose -f /var/www/beblum_audeed/docker-compose-savk.yml pull
-          sudo docker-compose -f /var/www/beblum_audeed/docker-compose-savk.yml up -d
-          echo 'Finaliza subida de imagen'
-          sudo docker system prune -a -f
-        EOF
-        
+      - name: Setup SSH - Connect to Server by SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy to server - git pull, generator img and dockerhub up
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@ec2-3-130-151-228.us-east-2.compute.amazonaws.com << 'EOF'
+            # 1. Actualiza el código dentro del contenedor
+            echo 'Inicia actualización del pull en el contenedor'
+            CONTAINER_NAME="beblum_audeed-app_savk_lar-1"
+            sudo docker exec -u root $CONTAINER_NAME /bin/sh -c "cd /var/www && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash && . ~/.bashrc && nvm install v16.10.0 && git checkout . &&  git pull origin main && npm run prod"
+            echo 'Termina actualización del pull en el contenedor'
+            # echo 'Inicia generación de imagen para DockerHub'
+            # 2. Construye una nueva imagen Docker desde el contenedor actualizado
+            # sudo docker commit $CONTAINER_NAME beblumco/be_blum_savk:v1.0
+
+            # 3. Sube la nueva imagen a Docker Hub
+            # echo ${{ secrets.DOCKER_PASSWORD }} | sudo docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+            # sudo docker push beblumco/be_blum_savk:v1.0
+
+            # 4. Actualiza el contenedor con la nueva imagen
+            # sudo docker-compose -f /var/www/beblum_audeed/docker-compose-savk.yml pull
+            # sudo docker-compose -f /var/www/beblum_audeed/docker-compose-savk.yml up -d
+            # echo 'Finaliza subida de imagen'
+            # sudo docker system prune -a -f
+          EOF
+
     # - name: Configure Git user
     #   run: |
     #     git config --global user.email "beblumcolombia@outlook.com"
